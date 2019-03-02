@@ -6,7 +6,7 @@ Surface::Surface(SDL_Surface* surface)
 	setError(ptr.get());
 }
 
-Surface Surface::FromBMP(string const& path)
+Surface Surface::LoadIMG(string const& path)
 {
-	return Surface(SDL_LoadBMP(path.c_str()));
+	return Surface(IMG_Load(path.c_str()));
 }

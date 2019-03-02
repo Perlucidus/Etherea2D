@@ -21,7 +21,7 @@ public:
 	void CopyFrom(Texture const& texture, Rect const& from);
 	void CopyTo(Texture const& texture, Rect const& to);
 	Texture CreateFromSurface(Surface const& surface);
-	Texture LoadTextureBMP(string const& path);
+	Texture LoadTextureImg(string const& path);
 private:
 	void copy(Texture const& texture, const Rect* from = nullptr, const Rect* to = nullptr);
 private:

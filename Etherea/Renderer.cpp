@@ -46,9 +46,9 @@ Texture Renderer::CreateFromSurface(Surface const & surface)
 	return Texture(SDL_CreateTextureFromSurface(ptr.get(), surface.ptr.get()));
 }
 
-Texture Renderer::LoadTextureBMP(string const & path)
+Texture Renderer::LoadTextureImg(string const & path)
 {
-	return CreateFromSurface(Surface::FromBMP(path));
+	return CreateFromSurface(Surface::LoadIMG(path));
 }
 
 void Renderer::copy(Texture const & texture, const Rect * from, const Rect * to)

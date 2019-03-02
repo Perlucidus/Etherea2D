@@ -17,7 +17,7 @@ void Game::Start()
 	Init();
 	state = GameState::Initialized;
 	////////////////////////////
-	t = renderer.LoadTextureBMP("../textures/char2.bmp");
+	t = renderer.LoadTextureImg("../textures/char2-alpha.png");
 	src = Rect(134, 134);
 	//t.Query(src->x, src->y);
 	dst = src;
@@ -57,6 +57,7 @@ void Game::Init()
 	STDLOG << "Initializing";
 	window = Window("Etherea", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
 	renderer = window.CreateRenderer(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+	renderer.SetDrawColor(30, 30, 30);
 }
 
 void Game::Cleanup()

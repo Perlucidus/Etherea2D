@@ -11,7 +11,7 @@ public:
 
 	explicit Surface(SDL_Surface* surface);
 public:
-	static Surface FromBMP(string const& path);
+	static Surface LoadIMG(string const& path);
 private:
 	class SurfaceDeleter;
 private:
