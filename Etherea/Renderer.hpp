@@ -1,18 +1,17 @@
 #pragma once
 
 #include "Common.hpp"
-#include "Window.hpp"
-#include "Surface.hpp"
-#include "Texture.hpp"
-#include "Rect.hpp"
+#include "SDLComponent.hpp"
+
+class Surface;
+class Texture;
+class Rect;
 
 class Renderer : public SDLComponent {
 public:
-	Renderer() = delete;
-
-	Renderer(Window* window, int index, Uint32 flags);
-	Renderer(Window* window, Uint32 flags);
-	virtual ~Renderer();
+	Renderer() = default;
+	explicit Renderer(SDL_Renderer* renderer);
+	virtual ~Renderer() = default;
 
 	void Clear();
 	void Present();
@@ -22,9 +21,9 @@ public:
 	void CopyFrom(Texture const& texture, Rect const& from);
 	void CopyTo(Texture const& texture, Rect const& to);
 	Texture CreateFromSurface(Surface const& surface);
+	Texture LoadTextureBMP(string const& path);
 private:
 	void copy(Texture const& texture, const Rect* from = nullptr, const Rect* to = nullptr);
 private:
-	SDL_Renderer* ptr;
-	Window* window;
+	shared_ptr<SDL_Renderer> ptr;
 };

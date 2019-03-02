@@ -1,14 +1,10 @@
 #include "Surface.hpp"
 
-Surface::Surface(SDL_Surface* surface) : surface(surface) {}
-
-Surface::~Surface()
+Surface::Surface(SDL_Surface* surface)
 {
-	if (surface)
-		SDL_FreeSurface(surface);
+	ptr = shared_ptr<SDL_Surface>(surface, [=](SDL_Surface* p) { if (p) SDL_FreeSurface(p); STDLOG << "Surface Destroyed"; });
+	setError(ptr.get());
 }
-
-Surface::Surface(Surface const& other) : surface(other.surface) {}
 
 Surface Surface::FromBMP(string const& path)
 {

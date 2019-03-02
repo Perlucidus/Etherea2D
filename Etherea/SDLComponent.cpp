@@ -1,12 +1,12 @@
 #include "Common.hpp"
 #include "SDLComponent.hpp"
 
-SDLComponent::SDLComponent(SDLComponent const& other) : success(other.success), error(other.error) {}
-
 void SDLComponent::setError(bool s)
 {
-	if (!(success = s))
+	if (!(success = s)) {
 		error = SDL_GetError();
+		ERRLOG << error;
+	}
 }
 
 string const& SDLComponent::getError() const

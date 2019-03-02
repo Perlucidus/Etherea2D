@@ -22,11 +22,12 @@ public:
 	void Stop(StopReason);
 private:
 	void GameLoop();
-	void init();
-	void cleanup();
+	void Update();
+	void Init();
+	void Cleanup();
 private:
 	GameState state;
-	Window* window;
-	Renderer* renderer;
+	Window window;
+	Renderer renderer;
 	SDLEventHandler evtHandler;
 };

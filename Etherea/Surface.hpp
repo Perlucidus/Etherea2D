@@ -6,14 +6,14 @@
 class Surface : public SDLComponent {
 	friend class Renderer;
 public:
-	Surface() = delete;
+	Surface() = default;
+	virtual ~Surface() = default;
 
 	explicit Surface(SDL_Surface* surface);
-	virtual ~Surface();
-private:
-	Surface(Surface const& other);
 public:
 	static Surface FromBMP(string const& path);
 private:
-	SDL_Surface* ptr;
+	class SurfaceDeleter;
+private:
+	shared_ptr<SDL_Surface> ptr;
 };

@@ -137,6 +137,7 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AssetManager.hpp" />
     <ClInclude Include="BinaryIO.hpp" />
     <ClInclude Include="Enum.hpp" />
     <ClInclude Include="Game.hpp" />
