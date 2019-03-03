@@ -1,28 +1,19 @@
 #include "Game.hpp"
 #include "Texture.hpp"
-#include "Rect.hpp"
+#include "SDLStruct.hpp"
+#include "TextureManager.hpp"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 
 Game::Game() : state(GameState::Uninitialized), evtHandler(*this) {}
 
-////////////////////////////
-Texture t;
-Rect src, dst;
-////////////////////////////
-
 void Game::Start()
 {
 	Init();
 	state = GameState::Initialized;
 	////////////////////////////
-	t = renderer.LoadTextureImg("../textures/char2-alpha.png");
-	src = Rect(134, 134);
-	//t.Query(src->x, src->y);
-	dst = src;
-	dst->x = SCREEN_WIDTH - dst->w;
-	dst->y = (SCREEN_HEIGHT - dst->h)/2;
+	TextureManager::getInstance(renderer).Load("snake", "../textures/char2-alpha.png");
 	////////////////////////////
 	while (state != +GameState::Exiting)
 		GameLoop();
@@ -40,9 +31,9 @@ void Game::GameLoop()
 void Game::Update()
 {
 	////////////////////////////
-	src->x = 134 * (int)((SDL_GetTicks() / 150) % 4);
-	dst->x = (int)((SCREEN_WIDTH - dst->w) * (1 - ((SDL_GetTicks() / 200) % 100) / 100.f));
-	renderer.Copy(t, src, dst);
+	TextureManager& tm = TextureManager::getInstance(renderer);
+	int x = (int)((SCREEN_WIDTH - 134) * ((SDL_GetTicks() / 200) % 100) / 100.f);
+	tm.Draw("snake", x, (SCREEN_HEIGHT - 134) / 2, 134, 134, (SDL_GetTicks() / 150) % 4, 0, SDL_FLIP_HORIZONTAL);
 	////////////////////////////
 }
 

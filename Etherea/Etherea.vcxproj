@@ -129,22 +129,21 @@
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Renderer.cpp" />
-    <ClCompile Include="SDLComponent.cpp" />
     <ClCompile Include="SDLEventHandler.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="Texture.cpp" />
+    <ClCompile Include="TextureManager.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AssetManager.hpp" />
+    <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="BinaryIO.hpp" />
     <ClInclude Include="Enum.hpp" />
     <ClInclude Include="Game.hpp" />
-    <ClInclude Include="Rect.hpp" />
+    <ClInclude Include="SDLStruct.hpp" />
     <ClInclude Include="Renderer.hpp" />
     <ClInclude Include="Common.hpp" />
-    <ClInclude Include="SDLComponent.hpp" />
     <ClInclude Include="SDLEventHandler.hpp" />
     <ClInclude Include="ILoggable.hpp" />
     <ClInclude Include="ISerializable.hpp" />

@@ -3,7 +3,8 @@
 Texture::Texture(SDL_Texture* texture)
 {
 	ptr = shared_ptr<SDL_Texture>(texture, [=](SDL_Texture* p) { if (p) SDL_DestroyTexture(p); STDLOG << "Texture Destroyed"; });
-	setError(ptr.get());
+	if (!ptr)
+		throw; //TODO TextureException
 }
 
 void Texture::Query(int & width, int & height)

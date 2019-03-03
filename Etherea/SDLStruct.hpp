@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Common.hpp"
-#include "SDLComponent.hpp"
 
 class Rect {
 	friend class Renderer;
@@ -21,4 +20,17 @@ public:
 	const SDL_Rect* operator->() const { return &data; }
 private:
 	SDL_Rect data;
+};
+
+class Point {
+	friend class Renderer;
+public:
+	Point() { data.x = data.y = 0; }
+	Point(Point const& other) : data(other.data) {}
+	Point(int x, int y) { data.x = x; data.y = y; }
+
+	SDL_Point* operator->() { return &data; }
+	const SDL_Point* operator->() const { return &data; }
+private:
+	SDL_Point data;
 };

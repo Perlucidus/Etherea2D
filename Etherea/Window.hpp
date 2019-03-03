@@ -1,11 +1,10 @@
 #pragma once
 
 #include "Common.hpp"
-#include "SDLComponent.hpp"
 
 class Renderer;
 
-class Window : public SDLComponent {
+class Window {
 public:
 	Window() = default;
 	Window(string name, int x, int y, int width, int height, Uint32 flags);

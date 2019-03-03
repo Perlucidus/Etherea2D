@@ -1,9 +1,8 @@
 #pragma once
 
 #include "Common.hpp"
-#include "SDLComponent.hpp"
 
-class Surface : public SDLComponent {
+class Surface {
 	friend class Renderer;
 public:
 	Surface() = default;

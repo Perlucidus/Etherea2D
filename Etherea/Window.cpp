@@ -6,7 +6,8 @@ Window::Window(string name, int x, int y, int width, int height, Uint32 flags)
 	ptr = shared_ptr<SDL_Window>(
 		SDL_CreateWindow(name.c_str(), x, y, width, height, flags),
 		[=](SDL_Window* p) { if (p) SDL_DestroyWindow(p); STDLOG << "Window Destroyed"; });
-	setError(ptr.get());
+	if (!ptr)
+		throw; //TODO WindowException
 }
 
 Window::Window(string name, int width, int height, Uint32 flags)

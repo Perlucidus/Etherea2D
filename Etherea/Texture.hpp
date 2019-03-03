@@ -1,11 +1,10 @@
 #pragma once
 
 #include "Common.hpp"
-#include "SDLComponent.hpp"
 
 class Renderer;
 
-class Texture : public SDLComponent {
+class Texture {
 	friend class Renderer;
 public:
 	Texture() = default;
