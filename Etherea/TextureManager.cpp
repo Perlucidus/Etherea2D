@@ -15,13 +15,13 @@ void TextureManager::Load(string const& id, string const& path)
 	textures[id] = renderer.LoadTexture(path);
 }
 
-void TextureManager::Draw(string const& id, int x, int y, int width, int height, SDL_RendererFlip flip)
+void TextureManager::Draw(string const& id, Rect const& rect, SDL_RendererFlip flip)
 {
-	Draw(id, x, y, width, height, 0, 0, flip);
+	Draw(id, rect, 0, 0, flip);
 }
 
-void TextureManager::Draw(string const& id, int x, int y, int width, int height, int frameX, int frameY, SDL_RendererFlip flip)
+void TextureManager::Draw(string const& id, Rect const& rect, int fx, int fy, SDL_RendererFlip flip)
 {
-	Rect src(width * frameX, height * frameY, width, height), dst(x, y, width, height);
+	Rect src(rect->w * fx, rect->h * fy, rect->w, rect->h), dst(rect->x, rect->y, rect->w, rect->h);
 	renderer.CopyEx(textures[id], src, dst, 0, flip);
 }
