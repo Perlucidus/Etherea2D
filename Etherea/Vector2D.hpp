@@ -6,7 +6,7 @@ template<typename IntegerType>
 class Vector2D {
 public:
 	Vector2D();
-	Vector2D(IntegerType const& scalar);
+	explicit Vector2D(IntegerType const& scalar);
 	Vector2D(IntegerType const& x, IntegerType const& y);
 	Vector2D(Vector2D const&) = default;
 
@@ -28,10 +28,15 @@ public:
 	Vector2D& operator*=(IntegerType const& scalar);
 	Vector2D& operator/=(IntegerType const& scalar);
 
+	operator bool() const;
 	template<typename IntegerType2>
 	explicit operator Vector2D<IntegerType2>() const;
 
 	IntegerType euclidean_norm() const;
+	bool is_normalized() const;
+	Vector2D normalized() const;
+	void normalize();
+
 	IntegerType const& getX() const;
 	IntegerType const& getY() const;
 	void setX(IntegerType const& value);
@@ -41,8 +46,10 @@ private:
 	IntegerType x, y;
 };
 
+using Velocity = Vector2D<float>;
 using Position = Vector2D<float>;
-using Size = Vector2D<size_t>;
+using Size = Vector2D<Uint32>;
+using Direction = Vector2D<float>;
 
 template<typename IntegerType>
 inline Vector2D<IntegerType>::Vector2D() : x(0), y(0) {}
@@ -160,9 +167,39 @@ inline Vector2D<IntegerType> & Vector2D<IntegerType>::operator/=(IntegerType con
 }
 
 template<typename IntegerType>
+inline Vector2D<IntegerType>::operator bool() const
+{
+	return x || y;
+}
+
+template<typename IntegerType>
 inline IntegerType Vector2D<IntegerType>::euclidean_norm() const
 {
-	return static_cast<IntegerType>(std::sqrtl(std::powl(x, 2), std::powl(y, 2)));
+	return static_cast<IntegerType>(std::sqrtl(std::powl(x, 2) + std::powl(y, 2)));
+}
+
+template<typename IntegerType>
+inline bool Vector2D<IntegerType>::is_normalized() const
+{
+	return euclidean_norm() == 1;
+}
+
+template<typename IntegerType>
+inline Vector2D<IntegerType> Vector2D<IntegerType>::normalized() const
+{
+	IntegerType norm = euclidean_norm();
+	if (!norm)
+		throw; //TODO math exception?
+	return *this / norm;
+}
+
+template<typename IntegerType>
+inline void Vector2D<IntegerType>::normalize()
+{
+	IntegerType norm = euclidean_norm();
+	if (!norm)
+		throw; //TODO math exception?
+	*this /= norm;
 }
 
 template<typename IntegerType>
@@ -200,5 +237,5 @@ template<typename IntegerType>
 template<typename IntegerType2>
 inline Vector2D<IntegerType>::operator Vector2D<IntegerType2>() const
 {
-	return Vector2D<IntegerType2>(static_cast<IntegerType>(x), static_cast<IntegerType>(y));
+	return Vector2D<IntegerType2>(static_cast<IntegerType2>(x), static_cast<IntegerType2>(y));
 }

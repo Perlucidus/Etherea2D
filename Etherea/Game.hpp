@@ -16,6 +16,7 @@ BETTER_ENUM(GameState, unsigned, Uninitialized, Initialized, Exiting)
 BETTER_ENUM(StopReason, unsigned, Error, ExitEvent)
 
 class Game {
+	friend class SDLEventHandler;
 public:
 	Game(Game const&) = delete;
 	void operator=(Game const&) = delete;

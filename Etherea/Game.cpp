@@ -3,10 +3,11 @@
 #include "SDLStruct.hpp"
 #include "TextureManager.hpp"
 #include "Renderable.hpp"
-#include "Entity.hpp"
+#include "Snek.hpp"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
+const Uint32 FPS_CAP = 1001; //Unlimited (1000/1001==0)
 
 Game::Game() : state(GameState::Uninitialized), evtHandler(*this) {}
 
@@ -24,7 +25,8 @@ void Game::GameLoop()
 	evtHandler.handleEvents();
 	Update();
 	Render();
-	SDL_Delay(100);
+	if (FPS_CAP <= 1000)
+		SDL_Delay(1000 / FPS_CAP);
 }
 
 void Game::Update()
@@ -55,7 +57,7 @@ void Game::Init()
 	renderer.SetDrawColor(30, 30, 30);
 	////////////////////////////
 	TextureManager::getInstance(renderer).Load("snake", "../textures/char2-alpha.png");
-	objects["snake"] = make_unique<Entity>("snake", 0, Size(134, 134), Size(4, 1), SDL_FLIP_HORIZONTAL);
+	objects["player"] = make_unique<Snek>();
 	////////////////////////////
 }
 
