@@ -1,6 +1,5 @@
 #include "TextureManager.hpp"
 #include "Renderer.hpp"
-#include "SDLStruct.hpp"
 
 TextureManager::TextureManager(Renderer& renderer) : renderer(renderer) {}
 
@@ -15,13 +14,13 @@ void TextureManager::Load(string const& id, string const& path)
 	textures[id] = renderer.LoadTexture(path);
 }
 
-void TextureManager::Draw(string const& id, Rect const& rect, SDL_RendererFlip flip)
+void TextureManager::Draw(string const& id, Position const& pos, Size const& size, SDL_RendererFlip flip)
 {
-	Draw(id, rect, 0, 0, flip);
+	Draw(id, pos, size, 0, flip);
 }
 
-void TextureManager::Draw(string const& id, Rect const& rect, int fx, int fy, SDL_RendererFlip flip)
+void TextureManager::Draw(string const& id, Position const& pos, Size const& size, Size const& frame, SDL_RendererFlip flip)
 {
-	Rect src(rect->w * fx, rect->h * fy, rect->w, rect->h), dst(rect->x, rect->y, rect->w, rect->h);
-	renderer.CopyEx(textures[id], src, dst, 0, flip);
+	//Rect src(static_cast<Position const>(size * frame, size)), dst(pos, size);
+	//renderer.CopyEx(textures[id], src, dst, 0, flip);
 }

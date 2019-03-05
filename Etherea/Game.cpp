@@ -38,11 +38,6 @@ void Game::Render()
 	renderer.Clear();
 	for (auto&& obj : objects)
 		obj.second->draw(renderer);
-	////////////////////////////
-	//TextureManager& tm = TextureManager::getInstance(renderer);
-	//int x = (int)((SCREEN_WIDTH - 134) * ((SDL_GetTicks() / 200) % 100) / 100.f);
-	//tm.Draw("snake", x, (SCREEN_HEIGHT - 134) / 2, 134, 134, (SDL_GetTicks() / 150) % 4, 0, SDL_FLIP_HORIZONTAL);
-	////////////////////////////
 	renderer.Present();
 }
 
@@ -60,7 +55,7 @@ void Game::Init()
 	renderer.SetDrawColor(30, 30, 30);
 	////////////////////////////
 	TextureManager::getInstance(renderer).Load("snake", "../textures/char2-alpha.png");
-	objects["snake"] = make_unique<Entity>("snake", Rect(0, 0, 134, 134), 4, 1, SDL_FLIP_HORIZONTAL);
+	objects["snake"] = make_unique<Entity>("snake", 0, Size(134, 134), Size(4, 1), SDL_FLIP_HORIZONTAL);
 	////////////////////////////
 }
 

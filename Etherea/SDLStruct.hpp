@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common.hpp"
+#include "Vector2D.hpp"
 
 class Rect {
 	friend class Renderer;
@@ -15,9 +16,15 @@ public:
 		data.w = width;
 		data.h = height;
 	}
+	Rect(Position const& pos, Size const& size)
+		: Rect(static_cast<int>(pos.getX()), static_cast<int>(pos.getY()),
+			static_cast<int>(size.getX()), static_cast<int>(size.getY())) {}
 
 	SDL_Rect* operator->() { return &data; }
 	const SDL_Rect* operator->() const { return &data; }
+
+	Vector2D<int> const& position() const { return Vector2D<int>(data.x, data.y); }
+	Vector2D<int> const& size() const { return Vector2D<int>(data.w, data.h); }
 private:
 	SDL_Rect data;
 };
@@ -31,6 +38,8 @@ public:
 
 	SDL_Point* operator->() { return &data; }
 	const SDL_Point* operator->() const { return &data; }
+
+	Vector2D<int> const& position() const { return Vector2D<int>(data.x, data.y); }
 private:
 	SDL_Point data;
 };
