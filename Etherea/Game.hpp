@@ -2,6 +2,7 @@
 
 #include "Window.hpp"
 #include "Renderer.hpp"
+#include "Music.hpp"
 #include "SDLEventHandler.hpp"
 #include "Renderable.hpp"
 
@@ -37,4 +38,5 @@ private:
 	Renderer renderer;
 	SDLEventHandler evtHandler;
 	map<string, unique_ptr<IRenderable>> objects;
+	Music music;
 };

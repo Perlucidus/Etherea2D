@@ -27,18 +27,18 @@ void SDLEventHandler::handle(SDL_Event const& evt)
 
 void SDLEventHandler::keyboard(SDL_KeyboardEvent const& evt)
 {
-	Snek& snek = static_cast<Snek&>(*game.objects["player"]);
+	Snek& player = static_cast<Snek&>(*game.objects["player"]);
 	Direction d;
 	switch (evt.keysym.sym) {
 	case SDLK_LEFT:
 	case SDLK_RIGHT:
-		d = Direction(evt.keysym.sym == SDLK_LEFT ? -1 : 1, 0);
+		d = Direction(static_cast<float>(evt.keysym.sym == SDLK_LEFT ? -1 : 1), 0);
 		if (evt.type == SDL_KEYDOWN) {
-			snek.setFacingDirection(d);
-			snek.setMoving(true);
+			player.setFacingDirection(d);
+			player.setMoving(true);
 		}
-		else if (evt.type == SDL_KEYUP && snek.getFacingDirection() == d)
-			snek.setMoving(false);
+		else if (evt.type == SDL_KEYUP && player.getFacingDirection() == d)
+			player.setMoving(false);
 		break;
 	}
 }

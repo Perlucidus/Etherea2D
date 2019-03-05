@@ -12,7 +12,5 @@ public:
 public:
 	static Surface LoadIMG(string const& path);
 private:
-	class SurfaceDeleter;
-private:
 	shared_ptr<SDL_Surface> ptr;
 };

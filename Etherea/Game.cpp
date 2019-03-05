@@ -56,7 +56,9 @@ void Game::Init()
 	renderer = window.CreateRenderer(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	renderer.SetDrawColor(30, 30, 30);
 	////////////////////////////
-	TextureManager::getInstance(renderer).Load("snake", "../textures/char2-alpha.png");
+	music = Music::Load("../assets/sound/The Builder.mp3");
+	music.play(Music::LOOP_FOREVER, 500);
+	TextureManager::getInstance(renderer).Load("snake", "../assets/textures/char2-alpha.png");
 	objects["player"] = make_unique<Snek>();
 	////////////////////////////
 }

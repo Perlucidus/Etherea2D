@@ -46,10 +46,10 @@ private:
 	IntegerType x, y;
 };
 
-using Velocity = Vector2D<float>;
 using Position = Vector2D<float>;
 using Size = Vector2D<Uint32>;
 using Direction = Vector2D<float>;
+using Velocity = Vector2D<float>;
 
 template<typename IntegerType>
 inline Vector2D<IntegerType>::Vector2D() : x(0), y(0) {}
