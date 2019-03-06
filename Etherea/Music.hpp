@@ -1,6 +1,6 @@
 #pragma once
 
-#include "SDLStruct.hpp"
+#include "Common.hpp"
 
 class Music {
 public:

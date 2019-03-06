@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Log.hpp"
+#include "Exception.hpp"
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_mixer.h>

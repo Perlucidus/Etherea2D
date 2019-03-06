@@ -188,8 +188,7 @@ template<typename IntegerType>
 inline Vector2D<IntegerType> Vector2D<IntegerType>::normalized() const
 {
 	IntegerType norm = euclidean_norm();
-	if (!norm)
-		throw; //TODO math exception?
+	if (!norm) throw std::logic_error("Can't normalize a zero vector");
 	return *this / norm;
 }
 
@@ -197,8 +196,7 @@ template<typename IntegerType>
 inline void Vector2D<IntegerType>::normalize()
 {
 	IntegerType norm = euclidean_norm();
-	if (!norm)
-		throw; //TODO math exception?
+	if (!norm) throw std::logic_error("Can't normalize a zero vector");
 	*this /= norm;
 }
 

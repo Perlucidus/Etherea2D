@@ -6,14 +6,13 @@
 Renderer::Renderer(SDL_Renderer* renderer)
 {
 	ptr = shared_ptr<SDL_Renderer>(renderer, [=](SDL_Renderer* p) { if (p) SDL_DestroyRenderer(p); STDLOG << "Renderer Destroyed"; });
-	if (!ptr)
-		throw; // TODO Renderer Exception
+	if (!ptr) throw RenderException();
 }
 
 void Renderer::Clear()
 {
 	if (SDL_RenderClear(ptr.get()))
-		throw; //TODO RenderException
+		throw RenderException();
 }
 
 void Renderer::Present()
@@ -24,7 +23,7 @@ void Renderer::Present()
 void Renderer::SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 alpha)
 {
 	if (SDL_SetRenderDrawColor(ptr.get(), r, g, b, alpha))
-		throw; //TODO RenderException
+		throw RenderException();
 }
 
 void Renderer::Copy(Texture const& texture, Rect const & from, Rect const & to)
@@ -69,7 +68,7 @@ void Renderer::copy(Texture const & texture, const Rect * from, const Rect * to)
 	if (from) src = &from->data;
 	if (to) dst = &to->data;
 	if (SDL_RenderCopy(ptr.get(), texture.ptr.get(), src, dst))
-		throw; //TODO RenderException
+		throw RenderException();
 }
 
 void Renderer::copyEx(Texture const& texture, const Rect* from, const Rect* to, double angle, const Point* center, SDL_RendererFlip flip)
@@ -81,5 +80,5 @@ void Renderer::copyEx(Texture const& texture, const Rect* from, const Rect* to, 
 	if (to) dst = &to->data;
 	if (center) cntr = &center->data;
 	if (SDL_RenderCopyEx(ptr.get(), texture.ptr.get(), src, dst, angle, cntr, flip))
-		throw; //TODO RenderException
+		throw RenderException();
 }
