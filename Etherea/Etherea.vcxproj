@@ -146,6 +146,7 @@
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Music.cpp" />
+    <ClCompile Include="Random.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SDLEventHandler.cpp" />
     <ClCompile Include="SoundEffect.cpp" />
@@ -158,6 +159,7 @@
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="Exception.hpp" />
     <ClInclude Include="Music.hpp" />
+    <ClInclude Include="Random.hpp" />
     <ClInclude Include="Renderable.hpp" />
     <ClInclude Include="Snek.hpp" />
     <ClInclude Include="SoundEffect.hpp" />

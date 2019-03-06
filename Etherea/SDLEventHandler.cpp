@@ -1,6 +1,7 @@
 #include "SDLEventHandler.hpp"
 #include "Game.hpp"
 #include "Snek.hpp"
+#include "Random.hpp"
 
 SDLEventHandler::SDLEventHandler(Game& game) : game(game) {}
 
@@ -29,6 +30,7 @@ void SDLEventHandler::keyboard(SDL_KeyboardEvent const& evt)
 {
 	Snek& player = static_cast<Snek&>(*game.objects["player"]);
 	Direction d;
+	Random rnd;
 	switch (evt.keysym.sym) {
 	case SDLK_LEFT:
 	case SDLK_RIGHT:
@@ -39,6 +41,13 @@ void SDLEventHandler::keyboard(SDL_KeyboardEvent const& evt)
 		}
 		else if (evt.type == SDL_KEYUP && player.getFacingDirection() == d)
 			player.setMoving(false);
+		break;
+	case SDLK_UP:
+		if (evt.type == SDL_KEYDOWN)
+			player.changeColor(rnd.next(256), rnd.next(256), rnd.next(256));
+		break;
+	case SDLK_DOWN:
+		player.changeColor(255, 255, 255);
 		break;
 	}
 }

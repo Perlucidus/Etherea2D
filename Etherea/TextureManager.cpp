@@ -9,6 +9,14 @@ TextureManager& TextureManager::getInstance(Renderer& renderer)
 	return instance;
 }
 
+Texture & TextureManager::GetTexture(string const & id)
+{
+	auto res = textures.find(id);
+	if (res == textures.end())
+		throw std::logic_error("No texture was found by the id of " + id);
+	return res->second;
+}
+
 void TextureManager::Load(string const& id, string const& path)
 {
 	textures[id] = renderer.LoadTexture(path);
