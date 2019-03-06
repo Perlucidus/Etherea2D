@@ -9,7 +9,11 @@
 
 class Snek : public Entity {
 public:
-	Snek() : Entity("snake", Position(), Size(134, 134), Size(4, 1), 10, SDL_FLIP_HORIZONTAL, Velocity(10, 0)) {}
+	Snek() : Entity("snake", Position(), Size(134, 134), Size(4, 1), 10, SDL_FLIP_HORIZONTAL, Velocity(10, 0)),
+		rmod(255), gmod(255), bmod(255)
+	{
+		facing = Direction(1, 0);
+	}
 
 	void changeColor(Uint8 r, Uint8 g, Uint8 b) {
 		rmod = r;

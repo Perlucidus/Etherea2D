@@ -11,6 +11,13 @@ void Texture::Query(int & width, int & height)
 	query(nullptr, nullptr, &width, &height);
 }
 
+void Texture::Query(Size & size)
+{
+	int w, h;
+	Query(w, h);
+	size = Size(w, h);
+}
+
 void Texture::Query(Uint32& format, int& access, int& width, int& height)
 {
 	query(&format, &access, &width, &height);

@@ -3,16 +3,27 @@
 #include <exception>
 
 class SDLException : public std::exception {
-	const char* what() const noexcept override;
+public:
+	char const* what() const noexcept override;
+};
+
+class MixException : public SDLException {
+public:
+	char const* what() const noexcept override;
 };
 
 class WindowException : public SDLException {};
 class RenderException : public SDLException {};
 class SurfaceException : public SDLException {};
 class TextureException : public SDLException {};
+class TimerException : public SDLException {
+public:
+	TimerException();
+	TimerException(char const* reason);
 
-class MixException : public SDLException {
-	const char* what() const noexcept override;
+	char const* what() const noexcept override;
+private:
+	char const* reason;
 };
 
 class MusicException : public MixException {};

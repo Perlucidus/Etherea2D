@@ -14,14 +14,7 @@ Log::~Log()
 	cout << ss.str();
 }
 
-Log& Log::operator<<(const char* msg)
+Log& Log::operator<<(ILoggable const& val)
 {
-	ss << msg;
-	return *this;
-}
-
-Log& Log::operator<<(string const& msg)
-{
-	ss << msg;
-	return *this;
+	*this << val.toString();
 }

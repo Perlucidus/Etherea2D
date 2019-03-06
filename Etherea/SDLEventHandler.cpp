@@ -1,6 +1,6 @@
 #include "SDLEventHandler.hpp"
 #include "Game.hpp"
-#include "Snek.hpp"
+#include "Test.hpp"
 #include "Random.hpp"
 
 SDLEventHandler::SDLEventHandler(Game& game) : game(game) {}
@@ -22,6 +22,15 @@ void SDLEventHandler::handle(SDL_Event const& evt)
 	case SDL_KEYDOWN:
 	case SDL_KEYUP:
 		keyboard(evt.key);
+		break;
+	case SDL_USEREVENT:
+		STDLOG << "User Event " << evt.user.code;
+		///////////////////////////////////////////////
+		if (evt.user.code == 0) {
+			game.objects.erase("splash");
+			game.objects["player"]->show();
+		}
+		///////////////////////////////////////////////
 		break;
 	}
 }

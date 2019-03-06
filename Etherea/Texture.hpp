@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common.hpp"
+#include "Vector2D.hpp"
 
 class Renderer;
 
@@ -11,8 +12,9 @@ public:
 	explicit Texture(SDL_Texture* texture);
 	virtual ~Texture() = default;
 public:
-	void Query(int& width, int& height);
 	void Query(Uint32& format, int& access, int& width, int& height);
+	void Query(int& width, int& height);
+	void Query(Size& size);
 	void GetColorMod(Uint8& r, Uint8& g, Uint8& b);
 	void ColorMod(Uint8 r, Uint8 g, Uint8 b);
 	void ClearColorMod();

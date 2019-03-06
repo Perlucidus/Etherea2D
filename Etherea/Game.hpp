@@ -5,6 +5,7 @@
 #include "Music.hpp"
 #include "SDLEventHandler.hpp"
 #include "Renderable.hpp"
+#include "Timer.hpp"
 
 #define BETTER_ENUMS_NO_CONSTEXPR //Prevents some weird error
 #include "Enum.hpp"
@@ -37,6 +38,7 @@ private:
 	Window window;
 	Renderer renderer;
 	SDLEventHandler evtHandler;
-	map<string, unique_ptr<IRenderable>> objects;
+	map<string, unique_ptr<Renderable>> objects;
+	map<SDL_TimerID, Timer> timers;
 	Music music;
 };

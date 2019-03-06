@@ -4,7 +4,7 @@
 
 Entity::Entity(string const& id, Position const& pos, Size const& size,
 	Size const& frameSize, Uint32 base_fps, SDL_RendererFlip flip, Velocity velocity)
-	: IAnimated(id, pos, size, AnimationFrame(frameSize), base_fps, flip), moving(false), velocity(velocity) {}
+	: Animated(id, pos, size, AnimationFrame(frameSize), base_fps, flip), moving(false), velocity(velocity) {}
 
 Direction Entity::getFacingDirection() const
 {
@@ -38,6 +38,8 @@ void Entity::setVelocity(Velocity v)
 
 void Entity::draw(Renderer& renderer)
 {
+	if (!shown)
+		return;
 	SDL_RendererFlip f = flip;
 	if (facing.getX() < 0)
 		f = static_cast<SDL_RendererFlip>(f ^ SDL_FLIP_HORIZONTAL);

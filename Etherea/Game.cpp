@@ -2,8 +2,8 @@
 #include "Texture.hpp"
 #include "SDLStruct.hpp"
 #include "TextureManager.hpp"
-#include "Renderable.hpp"
-#include "Snek.hpp"
+#include "Splash.hpp"
+#include "Test.hpp"
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
@@ -56,15 +56,21 @@ void Game::Init()
 	renderer = window.CreateRenderer(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	renderer.SetDrawColor(30, 30, 30);
 	////////////////////////////
+	TextureManager& tm = TextureManager::getInstance(renderer);
+	tm.Load("splash", "../assets/textures/splash.png");
+	objects["splash"] = make_unique<Splash>("splash", 3000);
 	music = Music::Load("../assets/sound/The Builder.mp3");
 	music.play(Music::LOOP_FOREVER, 500);
-	TextureManager::getInstance(renderer).Load("snake", "../assets/textures/char2-alpha.png");
+	tm.Load("snake", "../assets/textures/char2-alpha.png");
 	objects["player"] = make_unique<Snek>();
+	objects["player"]->hide();
 	////////////////////////////
 }
 
 void Game::Cleanup()
 {
+	for (auto&& timer : timers)
+		timer.second.abort();
 	for (auto&& obj : objects)
 		obj.second->clean();
 }

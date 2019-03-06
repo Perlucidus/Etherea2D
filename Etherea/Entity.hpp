@@ -1,8 +1,8 @@
 #pragma once
 
-#include "Renderable.hpp"
+#include "Animated.hpp"
 
-class Entity : public IAnimated {
+class Entity : public Animated {
 public:
 	Entity() = delete;
 	Entity(string const& id, Position const& pos, Size const& size, Size const& frameSize,
@@ -15,7 +15,7 @@ public:
 	Velocity getVelocity() const;
 	void setVelocity(Velocity v);
 
-	// Inherited via IRenderable
+	// Inherited via Renderable
 	virtual void draw(Renderer & renderer) override;
 protected:
 	Direction facing;

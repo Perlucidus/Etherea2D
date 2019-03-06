@@ -25,8 +25,16 @@ public:
 	Log(LogLevel);
 	virtual ~Log();
 	
-	Log& operator<<(const char*);
-	Log& operator<<(string const& msg);
+	template<typename T>
+	Log& operator<<(T const& val);
+	Log& operator<<(ILoggable const& val);
 private:
 	ostringstream ss;
 };
+
+template<typename T>
+inline Log& Log::operator<<(T const& val)
+{
+	ss << val;
+	return *this;
+}

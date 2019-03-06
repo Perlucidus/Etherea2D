@@ -57,11 +57,14 @@
     <ClCompile Include="Random.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Splash.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ISerializable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Log.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -101,13 +104,7 @@
     <ClInclude Include="Entity.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderable.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Vector2D.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Snek.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Music.hpp">
@@ -120,6 +117,24 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Random.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Tile.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Test.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Splash.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Renderable.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animated.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
