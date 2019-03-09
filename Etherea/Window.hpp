@@ -3,6 +3,7 @@
 #include "Common.hpp"
 
 class Renderer;
+class PixelFormat;
 
 class Window {
 public:
@@ -13,6 +14,7 @@ public:
 
 	Renderer CreateRenderer(Uint32 flags);
 	Renderer CreateRenderer(int index, Uint32 flags);
+	PixelFormat GetPixelFormat();
 private:
 	shared_ptr<SDL_Window> ptr;
 };

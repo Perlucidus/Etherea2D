@@ -1,5 +1,6 @@
 #include "Window.hpp"
 #include "Renderer.hpp"
+#include "PixelFormat.hpp"
 
 Window::Window(string name, int x, int y, int width, int height, Uint32 flags)
 {
@@ -20,4 +21,9 @@ Renderer Window::CreateRenderer(Uint32 flags)
 Renderer Window::CreateRenderer(int index, Uint32 flags)
 {
 	return Renderer(SDL_CreateRenderer(ptr.get(), index, flags));
+}
+
+PixelFormat Window::GetPixelFormat()
+{
+	return PixelFormat(SDL_AllocFormat(SDL_GetWindowPixelFormat(ptr.get())));
 }

@@ -11,36 +11,24 @@ Surface Surface::LoadIMG(string const& path)
 	return Surface(IMG_Load(path.c_str()));
 }
 
-void Surface::GetColorMod(Uint8 & r, Uint8 & g, Uint8 & b)
+SDL_Color Surface::GetColorMod()
 {
-	if (SDL_GetSurfaceColorMod(ptr.get(), &r, &g, &b))
+	SDL_Color color;
+	if (SDL_GetSurfaceColorMod(ptr.get(), &color.r, &color.g, &color.b) || SDL_GetSurfaceAlphaMod(ptr.get(), &color.a))
 		throw SurfaceException();
+	return color;
 }
 
-void Surface::ColorMod(Uint8 r, Uint8 g, Uint8 b)
+void Surface::ColorMod(SDL_Color const& color)
 {
-	if (SDL_SetSurfaceColorMod(ptr.get(), r, g, b))
+	if (SDL_SetSurfaceColorMod(ptr.get(), color.r, color.g, color.b) || SDL_SetSurfaceAlphaMod(ptr.get(), color.a))
 		throw SurfaceException();
 }
 
 void Surface::ClearColorMod()
 {
-	ColorMod(255, 255, 255);
-}
-
-void Surface::GetAlphaMod(Uint8 & alpha)
-{
-	if (SDL_GetSurfaceAlphaMod(ptr.get(), &alpha))
-		throw SurfaceException();
-}
-
-void Surface::AlphaMod(Uint8 alpha)
-{
-	if (SDL_SetSurfaceAlphaMod(ptr.get(), alpha))
-		throw SurfaceException();
-}
-
-void Surface::ClearAlphaMod()
-{
-	AlphaMod(SDL_ALPHA_OPAQUE);
+	SDL_Color color;
+	color.r = color.g = color.b = 255;
+	color.a = SDL_ALPHA_OPAQUE;
+	ColorMod(color);
 }

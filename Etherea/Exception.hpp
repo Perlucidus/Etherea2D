@@ -16,6 +16,7 @@ class WindowException : public SDLException {};
 class RenderException : public SDLException {};
 class SurfaceException : public SDLException {};
 class TextureException : public SDLException {};
+class PixelFormatException : public SDLException {};
 class TimerException : public SDLException {
 public:
 	TimerException();

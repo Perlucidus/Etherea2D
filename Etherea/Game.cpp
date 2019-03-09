@@ -53,12 +53,12 @@ void Game::Init()
 {
 	STDLOG << "Initializing";
 	window = Window("Etherea", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-	renderer = window.CreateRenderer(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
-	renderer.SetDrawColor(30, 30, 30);
+	renderer = window.CreateRenderer(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
+	renderer.SetDrawColor(Color(30, 30, 30));
 	////////////////////////////
 	TextureManager& tm = TextureManager::getInstance(renderer);
 	tm.Load("splash", "../assets/textures/splash.png");
-	objects["splash"] = make_unique<Splash>("splash", 3000);
+	objects["splash"] = make_unique<Splash>("splash", 2000);
 	music = Music::Load("../assets/sound/The Builder.mp3");
 	music.play(Music::LOOP_FOREVER, 500);
 	tm.Load("snake", "../assets/textures/char2-alpha.png");

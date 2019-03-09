@@ -20,9 +20,21 @@ void Renderer::Present()
 	SDL_RenderPresent(ptr.get());
 }
 
-void Renderer::SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 alpha)
+void Renderer::SetDrawColor(SDL_Color const& color)
 {
-	if (SDL_SetRenderDrawColor(ptr.get(), r, g, b, alpha))
+	if (SDL_SetRenderDrawColor(ptr.get(), color.r, color.g, color.b, color.a))
+		throw RenderException();
+}
+
+void Renderer::SetTarget(Texture const& texture)
+{
+	if (SDL_SetRenderTarget(ptr.get(), texture.ptr.get()))
+		throw RenderException();
+}
+
+void Renderer::ClearTarget()
+{
+	if (SDL_SetRenderTarget(ptr.get(), nullptr))
 		throw RenderException();
 }
 

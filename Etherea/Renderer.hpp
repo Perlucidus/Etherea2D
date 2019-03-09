@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Common.hpp"
-
+#include "PixelFormat.hpp"
+ 
 class Surface;
 class Texture;
 class Rect;
@@ -15,7 +16,9 @@ public:
 
 	void Clear();
 	void Present();
-	void SetDrawColor(Uint8 r, Uint8 g, Uint8 b, Uint8 alpha = SDL_ALPHA_OPAQUE);
+	void SetDrawColor(SDL_Color const& color);
+	void SetTarget(Texture const& texture);
+	void ClearTarget();
 
 	void Copy(Texture const& texture, Rect const& from, Rect const& to);
 	void CopyFrom(Texture const& texture, Rect const& from);

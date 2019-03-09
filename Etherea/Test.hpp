@@ -2,6 +2,7 @@
 
 #include "Entity.hpp"
 #include "TextureManager.hpp"
+#include "PixelFormat.hpp"
 
 //////////////////////////////
 //	For Testing Purposes	//
@@ -10,21 +11,20 @@
 class Snek : public Entity {
 public:
 	Snek() : Entity("snake", Position(), Size(134, 134), Size(4, 1), 10, SDL_FLIP_HORIZONTAL, Velocity(10, 0)),
-		rmod(255), gmod(255), bmod(255)
+		mod(Color(255, 255, 255))
 	{
 		facing = Direction(1, 0);
 	}
 
-	void changeColor(Uint8 r, Uint8 g, Uint8 b) {
-		rmod = r;
-		gmod = g;
-		bmod = b;
+	void changeColor(SDL_Color color) {
+		mod = color;
 	}
 
 	// Inherited via Entity
 	void draw(Renderer& renderer)
 	{
-		TextureManager::getInstance(renderer).GetTexture(id).ColorMod(rmod, gmod, bmod);
+		Texture& texture = TextureManager::getInstance(renderer).GetTexture(id);
+		texture.ColorMod(mod);
 		Entity::draw(renderer);
 	}
 
@@ -43,5 +43,5 @@ public:
 
 	void clean() {}
 private:
-	Uint8 rmod, gmod, bmod;
+	SDL_Color mod;
 };

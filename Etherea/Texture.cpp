@@ -23,38 +23,41 @@ void Texture::Query(Uint32& format, int& access, int& width, int& height)
 	query(&format, &access, &width, &height);
 }
 
-void Texture::GetColorMod(Uint8 & r, Uint8 & g, Uint8 & b)
+SDL_Color Texture::GetColorMod()
 {
-	if (SDL_GetTextureColorMod(ptr.get(), &r, &g, &b))
+	SDL_Color color;
+	if (SDL_GetTextureColorMod(ptr.get(), &color.r, &color.g, &color.b) || SDL_GetTextureAlphaMod(ptr.get(), &color.a))
 		throw SurfaceException();
+	return color;
 }
 
-void Texture::ColorMod(Uint8 r, Uint8 g, Uint8 b)
+void Texture::ColorMod(SDL_Color const& color)
 {
-	if (SDL_SetTextureColorMod(ptr.get(), r, g, b))
+	if (SDL_SetTextureColorMod(ptr.get(), color.r, color.g, color.b) || SDL_SetTextureAlphaMod(ptr.get(), color.a))
 		throw SurfaceException();
 }
 
 void Texture::ClearColorMod()
 {
-	ColorMod(255, 255, 255);
+	SDL_Color color;
+	color.r = color.g = color.b = 255;
+	color.a = SDL_ALPHA_OPAQUE;
+	ColorMod(color);
 }
 
-void Texture::GetAlphaMod(Uint8 & alpha)
+void Texture::Modify(TextureModCallback callback, PixelFormat const& format, void const* param)
 {
-	if (SDL_GetTextureAlphaMod(ptr.get(), &alpha))
-		throw SurfaceException();
-}
-
-void Texture::AlphaMod(Uint8 alpha)
-{
-	if (SDL_SetTextureAlphaMod(ptr.get(), alpha))
-		throw SurfaceException();
-}
-
-void Texture::ClearAlphaMod()
-{
-	AlphaMod(SDL_ALPHA_OPAQUE);
+	void* pixels;
+	int pitch;
+	if (SDL_LockTexture(ptr.get(), nullptr, &pixels, &pitch) || pitch < 0)
+		throw TextureException();
+	try {
+		callback(format, static_cast<Pixel*>(pixels), static_cast<size_t>(pitch) / sizeof(Pixel), param);
+	}
+	catch (...) {
+		SDL_UnlockTexture(ptr.get());
+		throw;
+	}
 }
 
 void Texture::query(Uint32* format, int* access, int* width, int* height)

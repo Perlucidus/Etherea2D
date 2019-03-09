@@ -53,10 +53,10 @@ void SDLEventHandler::keyboard(SDL_KeyboardEvent const& evt)
 		break;
 	case SDLK_UP:
 		if (evt.type == SDL_KEYDOWN)
-			player.changeColor(rnd.next(256), rnd.next(256), rnd.next(256));
+			player.changeColor(Color(rnd.next(256), rnd.next(256), rnd.next(256)));
 		break;
 	case SDLK_DOWN:
-		player.changeColor(255, 255, 255);
+		player.changeColor(Color(255, 255, 255));
 		break;
 	}
 }

@@ -15,7 +15,10 @@ void Splash::draw(Renderer & renderer)
 	Size size;
 	txtr.Query(size);
 	float progress = static_cast<float>(SDL_GetTicks() - start) / timer.getDelay();
-	txtr.AlphaMod(static_cast<Uint8>((progress < 0.7 ? progress : (1 - progress)) * 255 / 0.7f));
+	const float ratio = 0.67f;
+	SDL_Color color = txtr.GetColorMod();
+	color.a = static_cast<Uint8>((progress < ratio ? (progress / ratio) : ((1 - progress) / (1 - ratio))) * 255);
+	txtr.ColorMod(color);
 	tm.Draw(id, pos, size);
 }
 

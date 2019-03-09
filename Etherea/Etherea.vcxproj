@@ -146,6 +146,7 @@
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Music.cpp" />
+    <ClCompile Include="PixelFormat.cpp" />
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SDLEventHandler.cpp" />
@@ -160,6 +161,7 @@
   <ItemGroup>
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="Exception.hpp" />
+    <ClInclude Include="PixelFormat.hpp" />
     <ClInclude Include="Renderable.hpp" />
     <ClInclude Include="Music.hpp" />
     <ClInclude Include="Random.hpp" />
