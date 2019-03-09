@@ -28,4 +28,4 @@ private:
 };
 
 class MusicException : public MixException {};
-class SoundException : public MixException {};
+class SampleException : public MixException {};

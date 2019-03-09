@@ -150,7 +150,8 @@
     <ClCompile Include="Random.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="SDLEventHandler.cpp" />
-    <ClCompile Include="SoundEffect.cpp" />
+    <ClCompile Include="Sample.cpp" />
+    <ClCompile Include="SoundManager.cpp" />
     <ClCompile Include="Splash.cpp" />
     <ClCompile Include="Surface.cpp" />
     <ClCompile Include="Texture.cpp" />
@@ -166,9 +167,10 @@
     <ClInclude Include="Music.hpp" />
     <ClInclude Include="Random.hpp" />
     <ClInclude Include="Animated.hpp" />
+    <ClInclude Include="SoundManager.hpp" />
     <ClInclude Include="Splash.hpp" />
     <ClInclude Include="Test.hpp" />
-    <ClInclude Include="SoundEffect.hpp" />
+    <ClInclude Include="Sample.hpp" />
     <ClInclude Include="TextureManager.hpp" />
     <ClInclude Include="Enum.hpp" />
     <ClInclude Include="Game.hpp" />

@@ -2,6 +2,7 @@
 #include "Texture.hpp"
 #include "SDLStruct.hpp"
 #include "TextureManager.hpp"
+#include "SoundManager.hpp"
 #include "Splash.hpp"
 #include "Test.hpp"
 
@@ -57,10 +58,12 @@ void Game::Init()
 	renderer.SetDrawColor(Color(30, 30, 30));
 	////////////////////////////
 	TextureManager& tm = TextureManager::getInstance(renderer);
+	SoundManager& sm = SoundManager::getInstance();
 	tm.Load("splash", "../assets/textures/splash.png");
 	objects["splash"] = make_unique<Splash>("splash", 2000);
-	music = Music::Load("../assets/sound/The Builder.mp3");
-	music.play(Music::LOOP_FOREVER, 500);
+	sm.LoadMusic("../assets/sound/The Builder.mp3");
+	sm.SetMusicVolume(0.01f);
+	sm.PlayMusic(LOOP_SOUND_FOREVER, 500);
 	tm.Load("snake", "../assets/textures/char2-alpha.png");
 	objects["player"] = make_unique<Snek>();
 	objects["player"]->hide();

@@ -12,6 +12,8 @@ using std::unique_ptr;
 using std::shared_ptr;
 using std::make_unique;
 
+const int LOOP_SOUND_FOREVER = -1;
+
 inline SDL_Color Color(Uint8 r, Uint8 g, Uint8 b, Uint8 alpha = SDL_ALPHA_OPAQUE) {
 	SDL_Color color;
 	color.r = r;
