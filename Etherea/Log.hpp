@@ -24,8 +24,8 @@ public:
 	Log(LogLevel);
 	virtual ~Log();
 	
-	template<typename T>
-	Log& operator<<(T const& val);
+	template<typename Obj>
+	Log& operator<<(Obj const& val);
 	Log& operator<<(ILoggable const& val);
 #ifdef _WIN32
 public:
@@ -36,8 +36,8 @@ private:
 	LogLevel level;
 };
 
-template<typename T>
-inline Log& Log::operator<<(T const& val)
+template<typename Obj>
+inline Log& Log::operator<<(Obj const& val)
 {
 	ss << val;
 	return *this;

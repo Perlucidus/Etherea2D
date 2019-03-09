@@ -2,6 +2,6 @@
 
 #include "Animated.hpp"
 
-class Tile : public Animated {
+class MenuItem : public Animated {
 
 };

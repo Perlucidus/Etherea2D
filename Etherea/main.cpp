@@ -8,7 +8,7 @@ int main(int argc, char* args[])
 	}
 	Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, AUDIO_S16SYS, MIX_DEFAULT_CHANNELS, 4096);
 	try {
-		Game().Start();
+		GAME.Start();
 	}
 	catch (...) {
 		ERRLOG << SDL_GetError();

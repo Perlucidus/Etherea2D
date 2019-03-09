@@ -9,11 +9,6 @@ SoundManager::SoundManager() : channels(MIX_CHANNELS), used_channels(0)
 	Mix_AllocateChannels(channels);
 }
 
-SoundManager::~SoundManager()
-{
-	Mix_AllocateChannels(0);
-}
-
 SoundManager& SoundManager::getInstance()
 {
 	static SoundManager instance;

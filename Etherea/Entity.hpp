@@ -5,7 +5,10 @@
 class Entity : public Animated {
 public:
 	Entity() = delete;
-	Entity(string const& id, Position const& pos, Size const& size, Size const& frameSize,
+	Entity(Entity const&) = delete;
+	void operator=(Entity const&) = delete;
+
+	Entity(string const& id, Texture const& texture, Position const& pos, Size const& size, Size const& frameSize,
 		Uint32 base_fps, SDL_RendererFlip flip = SDL_FLIP_NONE, Velocity velocity = Velocity(0));
 
 	Direction getFacingDirection() const;

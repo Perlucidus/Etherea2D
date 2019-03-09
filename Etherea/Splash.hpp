@@ -5,7 +5,8 @@
 
 class Splash : public Renderable {
 public:
-	Splash(string const& id, Uint32 delay);
+	Splash(Texture const& texture, Uint32 delay);
+	Splash(Splash const& other);
 
 	// Inherited via Renderable
 	virtual void draw(Renderer & renderer) override;

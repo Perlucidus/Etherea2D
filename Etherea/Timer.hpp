@@ -14,6 +14,8 @@ using TimerCallback = std::function<TimerResult(Uint32 interval, void* param)>;
 
 class Timer {
 public:
+	Timer(Timer const& other) = delete;
+
 	Timer(Uint32 delay, TimerCallback callback = nullptr);
 	virtual ~Timer();
 

@@ -5,8 +5,7 @@
 class AnimationFrame {
 public:
 	AnimationFrame() = delete;
-	AnimationFrame(Size size, Size current = Size(0))
-		: size(size), current(current) {}
+	AnimationFrame(Size size, Size current = Size(0)) : size(size), current(current) {}
 
 	void set(Size const& frame)
 	{
@@ -32,10 +31,12 @@ private:
 class Animated : public Renderable {
 public:
 	Animated() = delete;
+	Animated(Animated const&) = delete;
+	void operator=(Animated const&) = delete;
 
-	Animated(string const& id, Position const& pos, Size const& size,
+	Animated(string const& id, Texture const& texture, Position const& pos, Size const& size,
 		AnimationFrame const& frame, Uint32 base_fps, SDL_RendererFlip flip = SDL_FLIP_NONE)
-		: Renderable(id, pos, size, flip), frame(frame), prev_update(0), base_fps(base_fps), fps(base_fps) {}
+		: Renderable(id, texture, pos, size, flip), frame(frame), prev_update(0), base_fps(base_fps), fps(base_fps) {}
 	virtual ~Animated() = default;
 
 	virtual void update() override { prev_update = SDL_GetTicks(); }

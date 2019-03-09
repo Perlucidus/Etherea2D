@@ -1,7 +1,7 @@
 #include "Splash.hpp"
-#include "TextureManager.hpp"
+#include "SDLStruct.hpp"
 
-Splash::Splash(string const& id, Uint32 delay) : Renderable(id, Position(0)), timer(delay)
+Splash::Splash(Texture const& texture, Uint32 delay) : Renderable("splash", texture, Position(0)), timer(delay)
 {
 	timer.setCallback(&Splash::end);
 	timer.start(nullptr);
@@ -10,16 +10,14 @@ Splash::Splash(string const& id, Uint32 delay) : Renderable(id, Position(0)), ti
 
 void Splash::draw(Renderer & renderer)
 {
-	TextureManager& tm = TextureManager::getInstance(renderer);
-	Texture& txtr = tm.GetTexture(id);
 	Size size;
-	txtr.Query(size);
+	texture.Query(size);
 	float progress = static_cast<float>(SDL_GetTicks() - start) / timer.getDelay();
 	const float ratio = 0.67f;
-	SDL_Color color = txtr.GetColorMod();
+	SDL_Color color = texture.GetColorMod();
 	color.a = static_cast<Uint8>((progress < ratio ? (progress / ratio) : ((1 - progress) / (1 - ratio))) * 255);
-	txtr.ColorMod(color);
-	tm.Draw(id, pos, size);
+	texture.ColorMod(color);
+	renderer.CopyTo(texture, Rect(pos, size));
 }
 
 void Splash::update() {}

@@ -269,10 +269,10 @@ namespace better_enums {
 
 	// Optional type.
 
-	template <typename T>
-	BETTER_ENUMS_CONSTEXPR_ inline T _default()
+	template <typename Obj>
+	BETTER_ENUMS_CONSTEXPR_ inline Obj _default()
 	{
-		return static_cast<typename T::_enumerated>(0);
+		return static_cast<typename Obj::_enumerated>(0);
 	}
 
 	template <>
@@ -287,23 +287,23 @@ namespace better_enums {
 		return 0;
 	}
 
-	template <typename T>
+	template <typename Obj>
 	struct optional {
 		BETTER_ENUMS_CONSTEXPR_ optional() :
-			_valid(false), _value(_default<T>()) { }
+			_valid(false), _value(_default<Obj>()) { }
 
-		BETTER_ENUMS_CONSTEXPR_ optional(T v) : _valid(true), _value(v) { }
+		BETTER_ENUMS_CONSTEXPR_ optional(Obj v) : _valid(true), _value(v) { }
 
-		BETTER_ENUMS_CONSTEXPR_ const T& operator *() const { return _value; }
-		BETTER_ENUMS_CONSTEXPR_ const T* operator ->() const { return &_value; }
+		BETTER_ENUMS_CONSTEXPR_ const Obj& operator *() const { return _value; }
+		BETTER_ENUMS_CONSTEXPR_ const Obj* operator ->() const { return &_value; }
 
 		BETTER_ENUMS_CONSTEXPR_ operator bool() const { return _valid; }
 
-		BETTER_ENUMS_CONSTEXPR_ const T& value() const { return _value; }
+		BETTER_ENUMS_CONSTEXPR_ const Obj& value() const { return _value; }
 
 	private:
 		bool    _valid;
-		T       _value;
+		Obj       _value;
 	};
 
 	template <typename CastTo, typename Element>
@@ -337,16 +337,16 @@ namespace better_enums {
 	}
 	)
 
-		template <typename T>
-	BETTER_ENUMS_CONSTEXPR_ static T* _or_null(optional<T*> maybe)
+		template <typename Obj>
+	BETTER_ENUMS_CONSTEXPR_ static Obj* _or_null(optional<Obj*> maybe)
 	{
 		return maybe ? *maybe : BETTER_ENUMS_NULLPTR;
 	}
 
-	template <typename T>
-	BETTER_ENUMS_CONSTEXPR_ static T _or_zero(optional<T> maybe)
+	template <typename Obj>
+	BETTER_ENUMS_CONSTEXPR_ static Obj _or_zero(optional<Obj> maybe)
 	{
-		return maybe ? *maybe : T::_from_integral_unchecked(0);
+		return maybe ? *maybe : Obj::_from_integral_unchecked(0);
 	}
 
 
@@ -356,9 +356,9 @@ namespace better_enums {
 	// position for the comma operator, and emits an external symbol, which then
 	// causes a linking error.
 
-	template <typename T, typename U>
+	template <typename Obj, typename U>
 	BETTER_ENUMS_CONSTEXPR_ U
-		continue_with(T, U value) { return value; }
+		continue_with(Obj, U value) { return value; }
 
 
 
@@ -1180,9 +1180,9 @@ namespace better_enums {
 
 	// Maps.
 
-	template <typename T>
+	template <typename Obj>
 	struct map_compare {
-		BETTER_ENUMS_CONSTEXPR_ static bool less(const T& a, const T& b)
+		BETTER_ENUMS_CONSTEXPR_ static bool less(const Obj& a, const Obj& b)
 		{
 			return a < b;
 		}
@@ -1225,26 +1225,26 @@ namespace better_enums {
 		}
 	};
 
-	template <typename Enum, typename T, typename Compare = map_compare<T> >
+	template <typename Enum, typename Obj, typename Compare = map_compare<Obj> >
 	struct map {
-		typedef T(*function)(Enum);
+		typedef Obj(*function)(Enum);
 
 		BETTER_ENUMS_CONSTEXPR_ explicit map(function f) : _f(f) { }
 
-		BETTER_ENUMS_CONSTEXPR_ T from_enum(Enum value) const { return _f(value); }
-		BETTER_ENUMS_CONSTEXPR_ T operator [](Enum value) const
+		BETTER_ENUMS_CONSTEXPR_ Obj from_enum(Enum value) const { return _f(value); }
+		BETTER_ENUMS_CONSTEXPR_ Obj operator [](Enum value) const
 		{
 			return _f(value);
 		}
 
-		BETTER_ENUMS_CONSTEXPR_ Enum to_enum(T value) const
+		BETTER_ENUMS_CONSTEXPR_ Enum to_enum(Obj value) const
 		{
 			return
 				_or_throw(to_enum_nothrow(value), "map::to_enum: invalid argument");
 		}
 
 		BETTER_ENUMS_CONSTEXPR_ optional<Enum>
-			to_enum_nothrow(T value, size_t index = 0) const
+			to_enum_nothrow(Obj value, size_t index = 0) const
 		{
 			return
 				index >= Enum::_size() ? optional<Enum>() :
@@ -1258,10 +1258,10 @@ namespace better_enums {
 		const function      _f;
 	};
 
-	template <typename Enum, typename T>
-	BETTER_ENUMS_CONSTEXPR_ map<Enum, T> make_map(T(*f)(Enum))
+	template <typename Enum, typename Obj>
+	BETTER_ENUMS_CONSTEXPR_ map<Enum, Obj> make_map(Obj(*f)(Enum))
 	{
-		return map<Enum, T>(f);
+		return map<Enum, Obj>(f);
 	}
 
 }

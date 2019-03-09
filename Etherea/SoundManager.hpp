@@ -10,7 +10,6 @@ public:
 	void operator=(SoundManager const&) = delete;
 private:
 	SoundManager();
-	~SoundManager();
 public:
 	static SoundManager& getInstance();
 
