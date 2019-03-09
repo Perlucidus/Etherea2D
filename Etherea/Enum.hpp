@@ -269,10 +269,10 @@ namespace better_enums {
 
 	// Optional type.
 
-	template <typename Obj>
-	BETTER_ENUMS_CONSTEXPR_ inline Obj _default()
+	template <typename T>
+	BETTER_ENUMS_CONSTEXPR_ inline T _default()
 	{
-		return static_cast<typename Obj::_enumerated>(0);
+		return static_cast<typename T::_enumerated>(0);
 	}
 
 	template <>
@@ -287,23 +287,23 @@ namespace better_enums {
 		return 0;
 	}
 
-	template <typename Obj>
+	template <typename T>
 	struct optional {
 		BETTER_ENUMS_CONSTEXPR_ optional() :
-			_valid(false), _value(_default<Obj>()) { }
+			_valid(false), _value(_default<T>()) { }
 
-		BETTER_ENUMS_CONSTEXPR_ optional(Obj v) : _valid(true), _value(v) { }
+		BETTER_ENUMS_CONSTEXPR_ optional(T v) : _valid(true), _value(v) { }
 
-		BETTER_ENUMS_CONSTEXPR_ const Obj& operator *() const { return _value; }
-		BETTER_ENUMS_CONSTEXPR_ const Obj* operator ->() const { return &_value; }
+		BETTER_ENUMS_CONSTEXPR_ const T& operator *() const { return _value; }
+		BETTER_ENUMS_CONSTEXPR_ const T* operator ->() const { return &_value; }
 
 		BETTER_ENUMS_CONSTEXPR_ operator bool() const { return _valid; }
 
-		BETTER_ENUMS_CONSTEXPR_ const Obj& value() const { return _value; }
+		BETTER_ENUMS_CONSTEXPR_ const T& value() const { return _value; }
 
 	private:
 		bool    _valid;
-		Obj       _value;
+		T       _value;
 	};
 
 	template <typename CastTo, typename Element>
@@ -337,16 +337,16 @@ namespace better_enums {
 	}
 	)
 
-		template <typename Obj>
-	BETTER_ENUMS_CONSTEXPR_ static Obj* _or_null(optional<Obj*> maybe)
+		template <typename T>
+	BETTER_ENUMS_CONSTEXPR_ static T* _or_null(optional<T*> maybe)
 	{
 		return maybe ? *maybe : BETTER_ENUMS_NULLPTR;
 	}
 
-	template <typename Obj>
-	BETTER_ENUMS_CONSTEXPR_ static Obj _or_zero(optional<Obj> maybe)
+	template <typename T>
+	BETTER_ENUMS_CONSTEXPR_ static T _or_zero(optional<T> maybe)
 	{
-		return maybe ? *maybe : Obj::_from_integral_unchecked(0);
+		return maybe ? *maybe : T::_from_integral_unchecked(0);
 	}
 
 
@@ -356,9 +356,9 @@ namespace better_enums {
 	// position for the comma operator, and emits an external symbol, which then
 	// causes a linking error.
 
-	template <typename Obj, typename U>
+	template <typename T, typename U>
 	BETTER_ENUMS_CONSTEXPR_ U
-		continue_with(Obj, U value) { return value; }
+		continue_with(T, U value) { return value; }
 
 
 
@@ -499,7 +499,7 @@ namespace better_enums {
 
 
 
-  // Array generation macros.
+// Array generation macros.
 
 #define BETTER_ENUMS_EAT_ASSIGN_SINGLE(EnumType, index, expression)            \
     (EnumType)((::better_enums::_eat_assign<EnumType>)EnumType::expression),
@@ -571,7 +571,7 @@ constexpr const char    *_final_ ## index =                                    \
 
 
 
-  // The enums proper.
+// The enums proper.
 
 #define BETTER_ENUMS_NS(EnumType)  better_enums_data_ ## EnumType
 
@@ -929,39 +929,39 @@ operator >>(std::basic_istream<Char, Traits>& stream, Enum &value)             \
 
 
 
-  // Enum feature options.
+// Enum feature options.
 
-  // C++98, C++11
+// C++98, C++11
 #define BETTER_ENUMS_CXX98_UNDERLYING_TYPE(Underlying)
 
-  // C++11
+// C++11
 #define BETTER_ENUMS_CXX11_UNDERLYING_TYPE(Underlying)                         \
     : Underlying
 
 #if defined(_MSC_VER) && _MSC_VER >= 1700
-  // VS 2012 and above fully support strongly typed enums and will warn about
-  // incorrect usage.
+// VS 2012 and above fully support strongly typed enums and will warn about
+// incorrect usage.
 #   define BETTER_ENUMS_LEGACY_UNDERLYING_TYPE(Underlying) BETTER_ENUMS_CXX11_UNDERLYING_TYPE(Underlying)
 #else
 #   define BETTER_ENUMS_LEGACY_UNDERLYING_TYPE(Underlying) BETTER_ENUMS_CXX98_UNDERLYING_TYPE(Underlying)
 #endif
 
-  // C++98, C++11
+// C++98, C++11
 #define BETTER_ENUMS_REGULAR_ENUM_SWITCH_TYPE(Type)                            \
     _enumerated
 
-  // C++11
+// C++11
 #define BETTER_ENUMS_ENUM_CLASS_SWITCH_TYPE(Type)                              \
     BETTER_ENUMS_NS(Type)::_enumClassForSwitchStatements
 
-  // C++98, C++11
+// C++98, C++11
 #define BETTER_ENUMS_REGULAR_ENUM_SWITCH_TYPE_GENERATE(Underlying, ...)
 
-  // C++11
+// C++11
 #define BETTER_ENUMS_ENUM_CLASS_SWITCH_TYPE_GENERATE(Underlying, ...)          \
     enum class _enumClassForSwitchStatements : Underlying { __VA_ARGS__ };
 
-  // C++98
+// C++98
 #define BETTER_ENUMS_CXX98_TRIM_STRINGS_ARRAYS(Enum, ...)                      \
     inline const char** _raw_names()                                           \
     {                                                                          \
@@ -989,7 +989,7 @@ operator >>(std::basic_istream<Char, Traits>& stream, Enum &value)             \
         return value;                                                          \
     }
 
-  // C++11 fast version
+// C++11 fast version
 #define BETTER_ENUMS_CXX11_PARTIAL_CONSTEXPR_TRIM_STRINGS_ARRAYS(Enum, ...)    \
     constexpr const char    *_the_raw_names[] =                                \
         { BETTER_ENUMS_ID(BETTER_ENUMS_STRINGIZE(__VA_ARGS__)) };              \
@@ -1018,7 +1018,7 @@ operator >>(std::basic_istream<Char, Traits>& stream, Enum &value)             \
         return value;                                                          \
     }
 
-  // C++11 slow all-constexpr version
+// C++11 slow all-constexpr version
 #define BETTER_ENUMS_CXX11_FULL_CONSTEXPR_TRIM_STRINGS_ARRAYS(Enum, ...)       \
     BETTER_ENUMS_ID(BETTER_ENUMS_TRIM_STRINGS(__VA_ARGS__))                    \
                                                                                \
@@ -1035,22 +1035,22 @@ operator >>(std::basic_istream<Char, Traits>& stream, Enum &value)             \
         return _the_name_array;                                                \
     }
 
-  // C++98, C++11 fast version
+// C++98, C++11 fast version
 #define BETTER_ENUMS_NO_CONSTEXPR_TO_STRING_KEYWORD
 
-  // C++11 slow all-constexpr version
+// C++11 slow all-constexpr version
 #define BETTER_ENUMS_CONSTEXPR_TO_STRING_KEYWORD                               \
     constexpr
 
-  // C++98, C++11 fast version
+// C++98, C++11 fast version
 #define BETTER_ENUMS_DO_DECLARE_INITIALIZE                                     \
     static int initialize();
 
-  // C++11 slow all-constexpr version
+// C++11 slow all-constexpr version
 #define BETTER_ENUMS_DECLARE_EMPTY_INITIALIZE                                  \
     static int initialize() { return 0; }
 
-  // C++98, C++11 fast version
+// C++98, C++11 fast version
 #define BETTER_ENUMS_DO_DEFINE_INITIALIZE(Enum)                                \
     inline int Enum::initialize()                                              \
     {                                                                          \
@@ -1067,20 +1067,20 @@ operator >>(std::basic_istream<Char, Traits>& stream, Enum &value)             \
         return 0;                                                              \
     }
 
-  // C++11 slow all-constexpr version
+// C++11 slow all-constexpr version
 #define BETTER_ENUMS_DO_NOT_DEFINE_INITIALIZE(Enum)
 
-  // C++98, C++11 fast version
+// C++98, C++11 fast version
 #define BETTER_ENUMS_DO_CALL_INITIALIZE(value)                                 \
     ::better_enums::continue_with(initialize(), value)
 
-  // C++11 slow all-constexpr version
+// C++11 slow all-constexpr version
 #define BETTER_ENUMS_DO_NOT_CALL_INITIALIZE(value)                             \
     value
 
 
 
-  // User feature selection.
+// User feature selection.
 
 #ifdef BETTER_ENUMS_STRICT_CONVERSION
 #   define BETTER_ENUMS_DEFAULT_SWITCH_TYPE                                    \
@@ -1132,7 +1132,7 @@ operator >>(std::basic_istream<Char, Traits>& stream, Enum &value)             \
 
 
 
-  // Top-level macros.
+// Top-level macros.
 
 #define BETTER_ENUM(Enum, Underlying, ...)                                     \
     BETTER_ENUMS_ID(BETTER_ENUMS_TYPE(                                         \
@@ -1180,9 +1180,9 @@ namespace better_enums {
 
 	// Maps.
 
-	template <typename Obj>
+	template <typename T>
 	struct map_compare {
-		BETTER_ENUMS_CONSTEXPR_ static bool less(const Obj& a, const Obj& b)
+		BETTER_ENUMS_CONSTEXPR_ static bool less(const T& a, const T& b)
 		{
 			return a < b;
 		}
@@ -1225,26 +1225,26 @@ namespace better_enums {
 		}
 	};
 
-	template <typename Enum, typename Obj, typename Compare = map_compare<Obj> >
+	template <typename Enum, typename T, typename Compare = map_compare<T> >
 	struct map {
-		typedef Obj(*function)(Enum);
+		typedef T(*function)(Enum);
 
 		BETTER_ENUMS_CONSTEXPR_ explicit map(function f) : _f(f) { }
 
-		BETTER_ENUMS_CONSTEXPR_ Obj from_enum(Enum value) const { return _f(value); }
-		BETTER_ENUMS_CONSTEXPR_ Obj operator [](Enum value) const
+		BETTER_ENUMS_CONSTEXPR_ T from_enum(Enum value) const { return _f(value); }
+		BETTER_ENUMS_CONSTEXPR_ T operator [](Enum value) const
 		{
 			return _f(value);
 		}
 
-		BETTER_ENUMS_CONSTEXPR_ Enum to_enum(Obj value) const
+		BETTER_ENUMS_CONSTEXPR_ Enum to_enum(T value) const
 		{
 			return
 				_or_throw(to_enum_nothrow(value), "map::to_enum: invalid argument");
 		}
 
 		BETTER_ENUMS_CONSTEXPR_ optional<Enum>
-			to_enum_nothrow(Obj value, size_t index = 0) const
+			to_enum_nothrow(T value, size_t index = 0) const
 		{
 			return
 				index >= Enum::_size() ? optional<Enum>() :
@@ -1258,10 +1258,10 @@ namespace better_enums {
 		const function      _f;
 	};
 
-	template <typename Enum, typename Obj>
-	BETTER_ENUMS_CONSTEXPR_ map<Enum, Obj> make_map(Obj(*f)(Enum))
+	template <typename Enum, typename T>
+	BETTER_ENUMS_CONSTEXPR_ map<Enum, T> make_map(T(*f)(Enum))
 	{
-		return map<Enum, Obj>(f);
+		return map<Enum, T>(f);
 	}
 
 }

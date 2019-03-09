@@ -33,7 +33,7 @@ inline Obj& GameComponent::GetObject(ObjectMap::key_type const& key)
 	auto it = objects.find(key);
 	if (it == objects.end())
 		throw std::runtime_error("Key not found");
-	return dynamic_cast<Obj&>(*it->second);
+	return dynamic_cast<T&>(*it->second);
 }
 
 template<typename Obj>
