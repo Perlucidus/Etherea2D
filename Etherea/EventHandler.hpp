@@ -2,6 +2,7 @@
 
 #include "Common.hpp"
 
+BETTER_ENUM(EventHandlerPriority, Uint32, WINDOW, SPLASH, TEST)
 BETTER_ENUM(CustomEvent, Sint32, SPLASH)
 
 class EventHandler {

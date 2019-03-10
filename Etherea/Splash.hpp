@@ -6,7 +6,6 @@
 class Splash : public Renderable {
 public:
 	Splash(Texture const& texture, Uint32 delay);
-	Splash(Splash const& other);
 
 	// Inherited via Renderable
 	virtual void draw(Renderer & renderer) override;
@@ -17,4 +16,15 @@ private:
 private:
 	Timer timer;
 	Uint32 start;
+};
+
+class SplashScreen : public GameComponent {
+public:
+	SplashScreen();
+};
+
+class SplashEventHandler : public EventHandler {
+public:
+	// Inherited via EventHandler
+	virtual void Handle(SDL_Event const& event) override;
 };

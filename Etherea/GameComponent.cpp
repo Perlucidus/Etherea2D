@@ -20,5 +20,6 @@ void GameComponent::Cleanup()
 
 void GameComponent::EraseObject(ObjectMap::key_type const& key)
 {
-	objects.erase(key);
+	if (!objects.erase(key))
+		throw std::logic_error("Key not found");
 }

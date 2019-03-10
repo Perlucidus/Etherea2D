@@ -66,10 +66,10 @@
     <ClCompile Include="WindowEventHandler.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="KeyboardEventHandler.cpp">
+    <ClCompile Include="GameComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="GameComponent.cpp">
+    <ClCompile Include="Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -155,10 +155,10 @@
     <ClInclude Include="WindowEventHandler.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="KeyboardEventHandler.hpp">
+    <ClInclude Include="GameComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameComponent.hpp">
+    <ClInclude Include="GUIComponent.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

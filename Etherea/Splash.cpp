@@ -1,5 +1,8 @@
 #include "Splash.hpp"
 #include "SDLStruct.hpp"
+////////////////////////////
+#include "Test.hpp"
+////////////////////////////
 
 Splash::Splash(Texture const& texture, Uint32 delay) : Renderable("splash", texture, Position(0)), timer(delay)
 {
@@ -35,4 +38,18 @@ TimerResult Splash::end(Uint32 interval, void* param)
 	evt.user = userevt;
 	SDL_PushEvent(&evt);
 	return TimerResult::ABORT;
+}
+
+SplashScreen::SplashScreen()
+{
+	GAME.RegisterEventHandler<SplashEventHandler>(EventHandlerPriority::SPLASH);
+	AddObject("splash", make_unique<Splash>(GAME.GetRenderer().LoadTexture("../assets/textures/splash.png"), 2000));
+}
+
+void SplashEventHandler::Handle(SDL_Event const& event)
+{
+	if (event.type != SDL_USEREVENT || event.user.code != CustomEvent::SPLASH)
+		return;
+	GAME.EraseComponent("splash");
+	GAME.GetComponent<TestComponent>("test").GetObject<Snek>("player").show();
 }

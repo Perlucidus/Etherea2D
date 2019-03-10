@@ -40,9 +40,15 @@ void Entity::draw(Renderer& renderer)
 {
 	if (!shown)
 		return;
+	Rect src(static_cast<Position>(size * frame.getFrame()), size), dst(pos, size);
 	Uint32 f = flip;
 	if (facing.getX() < 0) f ^= SDL_FLIP_HORIZONTAL;
 	if (facing.getY() < 0) f ^= SDL_FLIP_VERTICAL;
-	Rect src(static_cast<Position>(size * frame.getFrame()), size), dst(pos, size);
-	renderer.CopyEx(texture, src, dst, 0, static_cast<SDL_RendererFlip>(f));
+	double angle;
+	if (facing.getX() == 0)
+		angle = facing.getY() * M_PI / 2;
+	else
+		angle = atan(facing.getY() / facing.getX());
+	STDLOG << "(" << facing.getX() << ", " << facing.getY() << ") : " << angle * 180 / M_PI;
+	renderer.CopyEx(texture, src, dst, angle * 180 / M_PI, static_cast<SDL_RendererFlip>(f));
 }

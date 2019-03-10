@@ -4,7 +4,6 @@
 #include "SoundManager.hpp"
 #include "Splash.hpp"
 #include "WindowEventHandler.hpp"
-#include "KeyboardEventHandler.hpp"
 #include "Test.hpp"
 
 const int SCREEN_WIDTH = 800;
@@ -29,9 +28,10 @@ Renderer& Game::GetRenderer()
 	return renderer;
 }
 
-GameComponent& Game::GetComponent(string const& id)
+void Game::EraseComponent(string const& id)
 {
-	return *components[id];
+	if (!components.erase(id))
+		throw std::logic_error("Key not found");
 }
 
 void Game::Start()
@@ -81,9 +81,11 @@ void Game::Init()
 	window = Window("Etherea", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	renderer = window.CreateRenderer(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
 	renderer.SetDrawColor(Color(30, 30, 30));
-	eventHandlers[WindowEventHandler::PRIORITY] = make_unique<WindowEventHandler>();
-	eventHandlers[KeyboardEventHandler::PRIORITY] = make_unique<KeyboardEventHandler>();
+	RegisterEventHandler<WindowEventHandler>(EventHandlerPriority::WINDOW);
+	components["splash"] = make_unique<SplashScreen>();
+	////////////////////////////////////////////////////////////////////////////////////
 	components["test"] = make_unique<TestComponent>();
+	////////////////////////////////////////////////////////////////////////////////////
 }
 
 void Game::HandleEvents()

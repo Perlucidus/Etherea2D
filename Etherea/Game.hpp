@@ -20,8 +20,6 @@ BETTER_ENUM(GameState, unsigned, Running, Exiting)
 BETTER_ENUM(StopReason, unsigned, Error, QuitEvent)
 
 class Game {
-	friend class WindowEventHandler;
-	friend class KeyboardEventHandler;
 public:
 	Game(Game const&) = delete;
 	void operator=(Game const&) = delete;
@@ -32,10 +30,15 @@ public:
 
 	Window& GetWindow();
 	Renderer& GetRenderer();
-	GameComponent& GetComponent(string const& id);
+
+	template<typename ComponentT>
+	ComponentT& GetComponent(string const& id);
+	void EraseComponent(string const& id);
 
 	void Start();
 	void Stop(StopReason reason, bool cleanup);
+	template<typename EventHandlerT>
+	void RegisterEventHandler(int priority);
 private:
 	void GameLoop();
 	void Init();
@@ -50,5 +53,20 @@ private:
 	map<int, unique_ptr<EventHandler>> eventHandlers;
 	map<string, unique_ptr<GameComponent>> components;
 	map<SDL_TimerID, Timer> timers;
-	Music music;
 };
+
+template<typename ComponentT>
+inline ComponentT& Game::GetComponent(string const& id)
+{
+	static_assert(std::is_base_of<GameComponent, ComponentT>::value, "Invalid type argument");
+	auto it = components.find(id);
+	if (it == components.end())
+		throw std::logic_error("Key not found");
+	return dynamic_cast<ComponentT&>(*it->second);
+}
+
+template<typename EventHandlerT>
+inline void Game::RegisterEventHandler(int priority)
+{
+	eventHandlers[priority] = make_unique<EventHandlerT>();
+}
