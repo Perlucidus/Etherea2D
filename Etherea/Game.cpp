@@ -8,9 +8,10 @@
 
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
-const Uint32 FPS_CAP = 1001; //Unlimited (1000/1001==0)
 
-Game::Game() : state(GameState::Running) {}
+const double Game::TICK_RATE = 1. / 60.;
+
+Game::Game() : state(GameState::Running), ticks(0) {}
 
 Game& Game::GetInstance()
 {
@@ -38,6 +39,7 @@ void Game::Start()
 {
 	try {
 		Init();
+		lastTick = SDL_GetTicks();
 		while (state != +GameState::Exiting)
 			GameLoop();
 	}
@@ -45,13 +47,24 @@ void Game::Start()
 	Cleanup();
 }
 
+double Game::GetTicks() const
+{
+	return ticks;
+}
+
 void Game::GameLoop()
 {
 	HandleEvents();
-	Update();
+	double tick = SDL_GetTicks();
+	double loopTime = tick - lastTick;
+	lastTick = tick;
+	while (loopTime >= TICK_RATE) {
+		Update();
+		loopTime -= TICK_RATE;
+		ticks += TICK_RATE;
+	}
+	lastTick -= loopTime;
 	Render();
-	if (FPS_CAP <= 1000)
-		SDL_Delay(1000 / FPS_CAP);
 }
 
 void Game::Update()
@@ -82,10 +95,10 @@ void Game::Init()
 	renderer = window.CreateRenderer(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
 	renderer.SetDrawColor(Color(30, 30, 30));
 	RegisterEventHandler<WindowEventHandler>(EventHandlerPriority::WINDOW);
-	components["splash"] = make_unique<SplashScreen>();
 	////////////////////////////////////////////////////////////////////////////////////
-	components["test"] = make_unique<TestComponent>();
+	AddComponent<TestComponent>("test");
 	////////////////////////////////////////////////////////////////////////////////////
+	AddComponent<SplashScreen>("splash").Init();
 }
 
 void Game::HandleEvents()

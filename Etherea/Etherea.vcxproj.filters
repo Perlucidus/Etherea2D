@@ -72,6 +72,15 @@
     <ClCompile Include="Test.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="EventHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="World.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Animated.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Log.hpp">
@@ -134,9 +143,6 @@
     <ClInclude Include="Renderable.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Animated.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="PixelFormat.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -159,6 +165,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GUIComponent.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="World.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Chunk.hpp">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Animated.hpp">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -1,14 +1,12 @@
 #include "Test.hpp"
 
-Snek::Snek(Texture const & texture) : Entity("snake", texture, Position(), Size(134, 134), Size(4, 1),
-	10, SDL_FLIP_HORIZONTAL, Velocity(10, 10)), mod(Color(255, 255, 255))
+Snek::Snek() : Entity("snake", Texture(), Position(), Size(134, 134), Size(4, 1),
+	0.1f, SDL_FLIP_HORIZONTAL), v(Velocity(100, 100)), mode(0), mod(Color(255, 255, 255))
 {
+	texture = t = GAME.GetRenderer().LoadTexture("../assets/textures/char2-alpha.png");
+	t120l = GAME.GetRenderer().LoadTexture("../assets/textures/char2-alpha120l.png");
+	t120r = GAME.GetRenderer().LoadTexture("../assets/textures/char2-alpha120r.png");
 	facing = Direction(1, 0);
-}
-
-void Snek::changeColor(SDL_Color color)
-{
-	mod = color;
 }
 
 void Snek::draw(Renderer & renderer)
@@ -19,28 +17,30 @@ void Snek::draw(Renderer & renderer)
 
 void Snek::update()
 {
-	if (!canUpdate())
-		return;
-	if (moving) {
-		pos += facing * velocity;
-		frame++;
+	float dt = static_cast<float>((GAME.GetTicks() - last_move) / 1000);
+	if (moving || airborne) {
+		pos += getVelocity() * dt;
+		if (airborne) {
+			setFrame(Size(3, 0)); //Jumping
+			setVelocity(getVelocity() + gravity * dt);
+		}
+		else advanceFrame(Size(1, 0));
 	}
-	else
-		frame.set(Size(3, 0)); //Standing
+	else setFrame(Size(3, 0)); //Standing
+	last_move = GAME.GetTicks();
 	Entity::update();
 }
 
 void Snek::clean() {}
 
-TestComponent::TestComponent()
+void TestComponent::Init()
 {
 	GAME.RegisterEventHandler<TestEventHandler>(EventHandlerPriority::TEST);
 	SoundManager& sm = SoundManager::getInstance();
 	sm.LoadMusic("../assets/sound/The Builder.mp3");
 	sm.SetMusicVolume(0.01f);
 	sm.PlayMusic(LOOP_SOUND_FOREVER, 500);
-	AddObject("player", make_unique<Snek>(GAME.GetRenderer().LoadTexture("../assets/textures/char2-alpha.png")));
-	GetObject<Snek>("player").hide();
+	AddObject("player", make_unique<Snek>());
 }
 
 void TestEventHandler::Handle(SDL_Event const& event)
@@ -53,7 +53,7 @@ void TestEventHandler::Handle(SDL_Event const& event)
 	}
 }
 
-void TestEventHandler::KeyEvent(Uint8 const * state)
+void TestEventHandler::KeyEvent(Uint8 const* state)
 {
 	Snek& player = GAME.GetComponent<TestComponent>("test").GetObject<Snek>("player");
 	Random rnd;
@@ -61,83 +61,52 @@ void TestEventHandler::KeyEvent(Uint8 const * state)
 	Uint8 left = state[SDL_SCANCODE_LEFT];
 	Uint8 down = state[SDL_SCANCODE_DOWN];
 	Uint8 up = state[SDL_SCANCODE_UP];
-	if (!right && !left && !down && !up) {
-		player.setMoving(false);
-		player.changeColor(Color(255, 255, 255));
-		return;
-	}
-	int x = 0, y = 0;
-	if (right) x += 1;
-	if (left) x -= 1;
-	if (down) y += 1;
-	if (up) y -= 1;
-	player.setFacingDirection(Direction(static_cast<float>(x), static_cast<float>(y)));
-	player.changeColor(Color(rnd.next(255), rnd.next(255), rnd.next(255)));
-	player.setMoving(true);
-}
-
-void TestEventHandler::KeyDown(SDL_KeyboardEvent const & event)
-{
-	Snek& player = GAME.GetComponent<TestComponent>("test").GetObject<Snek>("player");
-	//Random rnd;
-	switch (event.keysym.sym) {
-	case SDLK_RIGHT:
-	case SDLK_LEFT:
-	case SDLK_DOWN:
-	case SDLK_UP:
-		player.setFacingDirection(GetKeyDirection(event.keysym.sym, player));
+	Uint8 mode = state[SDL_SCANCODE_TAB];
+	if (mode) player.mode = (player.mode + 1) % 3;
+	if (player.mode == 0) {
+		player.setTexture(player.t);
+		if (!right && !left && !down && !up) {
+			player.setMoving(false);
+			player.mod = Color(255, 255, 255);
+			return;
+		}
+		int x = 0, y = 0;
+		if (right) x += 1;
+		if (left) x -= 1;
+		if (down) y += 1;
+		if (up) y -= 1;
+		player.face(Direction(static_cast<float>(x), static_cast<float>(y)));
+		player.mod = Color(rnd.next(255), rnd.next(255), rnd.next(255));
+		player.setVelocity(player.getFacingDirection() * player.v);
 		player.setMoving(true);
-		break;
-		/*case SDLK_UP:
-			player.changeColor(Color(rnd.next(256), rnd.next(256), rnd.next(256)));
-			break;
-		case SDLK_DOWN:
-			player.changeColor(Color(255, 255, 255));
-			break;*/
 	}
-}
-
-void TestEventHandler::KeyUp(SDL_KeyboardEvent const & event)
-{
-	Snek& player = GAME.GetComponent<TestComponent>("test").GetObject<Snek>("player");
-	Direction key = GetKeyDirection(event.keysym.sym, player);
-	Direction face = player.getFacingDirection();
-	switch (event.keysym.sym) {
-	case SDLK_RIGHT:
-	case SDLK_LEFT:
-	case SDLK_DOWN:
-	case SDLK_UP:
-		if (face.getX() == key.getX())
-			player.setFacingDirection(player.getFacingDirection() * Direction(0, 1));
-		if (face.getY() == key.getY())
-			player.setFacingDirection(player.getFacingDirection() * Direction(1, 0));
-		break;
+	else if (player.mode == 1) {
+		player.setTexture(player.t120l);
+		if (right || left) {
+			player.face(Direction(right ? 1.f : left ? -1.f : 0, 0));
+			player.setVelocity(Velocity(player.v.x * player.getFacingDirection().x, player.getVelocity().y));
+			player.setMoving(true);
+		}
+		else player.setMoving(false);
+		if (up && !player.isAirborne()) {
+			player.setAirborne(true);
+			player.setGravity(Velocity(0, 1));
+			player.setVelocity(Velocity(player.getVelocity().x, -player.v.y));
+		}
 	}
-	if (player.getFacingDirection() == 0) {
-		player.setMoving(false);
-		player.setFacingDirection(face);
+	else if (player.mode == 2) {
+		player.setTexture(player.t120r);
+		if (right) player.angle = (player.angle + 5) % 360;
+		if (left) player.angle = (player.angle - 5) % 360;
+		float rads = player.angle / 180 * static_cast<float>(M_PI);
+		float x = cos(rads);
+		float y = sin(rads);
+		player.face(Direction(x, y));
+		if (up || down) {
+			player.mod = Color(rnd.next(255), rnd.next(255), rnd.next(255));
+			player.setVelocity(Velocity(x, y) * player.v * (up ? 1.f : down ? -1.f : 0));
+			player.setMoving(true);
+		}
+		else player.setMoving(false);
 	}
-}
-
-Direction TestEventHandler::GetKeyDirection(SDL_Keycode key, Snek & player)
-{
-	Direction face = player.getFacingDirection();
-	float x = face.getX(), y = face.getY();
-	if (!player.isMoving())
-		y = x = 0;
-	switch (key) {
-	case SDLK_RIGHT:
-		x = 1;
-		break;
-	case SDLK_LEFT:
-		x = -1;
-		break;
-	case SDLK_DOWN:
-		y = 1;
-		break;
-	case SDLK_UP:
-		y = -1;
-		break;
-	}
-	return Direction(x, y);
 }

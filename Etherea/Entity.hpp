@@ -9,19 +9,26 @@ public:
 	void operator=(Entity const&) = delete;
 
 	Entity(string const& id, Texture const& texture, Position const& pos, Size const& size, Size const& frameSize,
-		Uint32 base_fps, SDL_RendererFlip flip = SDL_FLIP_NONE, Velocity velocity = Velocity(0));
+		float base_speed, SDL_RendererFlip flip = SDL_FLIP_NONE);
 
 	Direction getFacingDirection() const;
 	bool isMoving() const;
-	void setFacingDirection(Direction const& d);
-	void setMoving(bool moving);
+	void face(Direction const& d);
+	void setMoving(bool set);
+	bool isAirborne() const;
+	void setAirborne(bool set);
 	Velocity getVelocity() const;
-	void setVelocity(Velocity v);
+	void setVelocity(Velocity const& v);
+	Velocity getGravity() const;
+	void setGravity(Velocity const& g);
 
 	// Inherited via Renderable
 	virtual void draw(Renderer & renderer) override;
 protected:
 	Direction facing;
+	double last_move;
 	bool moving;
-	Velocity velocity;
+	bool airborne;
+	Velocity velocity; //pixels/(animations/10ms)
+	Velocity gravity;
 };

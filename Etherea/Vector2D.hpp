@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <ostream>
 
 template<typename IntegerType>
 class Vector2D {
@@ -28,7 +29,6 @@ public:
 	Vector2D& operator*=(IntegerType const& scalar);
 	Vector2D& operator/=(IntegerType const& scalar);
 
-	operator bool() const;
 	template<typename IntegerType2>
 	explicit operator Vector2D<IntegerType2>() const;
 
@@ -37,12 +37,9 @@ public:
 	Vector2D normalized() const;
 	void normalize();
 
-	IntegerType const& getX() const;
-	IntegerType const& getY() const;
-	void setX(IntegerType const& value);
-	void setY(IntegerType const& value);
-	void set(IntegerType const& valx, IntegerType const& valy);
-private:
+	template<typename IntegerType>
+	friend std::ostream& operator<<(std::ostream& out, Vector2D<IntegerType> vec);
+public:
 	IntegerType x, y;
 };
 
@@ -167,12 +164,6 @@ inline Vector2D<IntegerType> & Vector2D<IntegerType>::operator/=(IntegerType con
 }
 
 template<typename IntegerType>
-inline Vector2D<IntegerType>::operator bool() const
-{
-	return x || y;
-}
-
-template<typename IntegerType>
 inline IntegerType Vector2D<IntegerType>::euclidean_norm() const
 {
 	return static_cast<IntegerType>(std::sqrtl(std::powl(x, 2) + std::powl(y, 2)));
@@ -201,39 +192,15 @@ inline void Vector2D<IntegerType>::normalize()
 }
 
 template<typename IntegerType>
-inline IntegerType const & Vector2D<IntegerType>::getX() const
-{
-	return x;
-}
-
-template<typename IntegerType>
-inline IntegerType const & Vector2D<IntegerType>::getY() const
-{
-	return y;
-}
-
-template<typename IntegerType>
-inline void Vector2D<IntegerType>::setX(IntegerType const & value)
-{
-	x = value;
-}
-
-template<typename IntegerType>
-inline void Vector2D<IntegerType>::setY(IntegerType const & value)
-{
-	y = value;
-}
-
-template<typename IntegerType>
-inline void Vector2D<IntegerType>::set(IntegerType const & valx, IntegerType const & valy)
-{
-	x = valx;
-	y = valy;
-}
-
-template<typename IntegerType>
 template<typename IntegerType2>
 inline Vector2D<IntegerType>::operator Vector2D<IntegerType2>() const
 {
 	return Vector2D<IntegerType2>(static_cast<IntegerType2>(x), static_cast<IntegerType2>(y));
+}
+
+template<typename IntegerType>
+inline std::ostream & operator<<(std::ostream & out, Vector2D<IntegerType> vec)
+{
+	out << "(" << vec.x << ", " << vec.y << ")";
+	return out;
 }

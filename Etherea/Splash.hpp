@@ -20,7 +20,9 @@ private:
 
 class SplashScreen : public GameComponent {
 public:
-	SplashScreen();
+	SplashScreen() = default;
+
+	virtual void Init() override;
 };
 
 class SplashEventHandler : public EventHandler {

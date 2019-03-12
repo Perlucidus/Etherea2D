@@ -23,6 +23,7 @@ public:
 	bool isShown() { return shown; }
 	void show() { shown = true; }
 	void hide() { shown = false; }
+	void setTexture(Texture const& t) { texture = t; }
 	void setSize(Size const& s) { size = s; }
 	void setFlip(SDL_RendererFlip f) { flip = f; }
 protected:

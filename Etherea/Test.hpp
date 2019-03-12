@@ -12,21 +12,25 @@
 
 class Snek : public Entity {
 public:
-	Snek(Texture const& texture);
-
-	void changeColor(SDL_Color color);
+	Snek();
 
 	// Inherited via Entity
 	virtual void draw(Renderer& renderer) override;
 	virtual void update() override;
 	virtual void clean() override;
-private:
+public:
+	Texture t, t120l, t120r;
+	const Velocity v;
+	size_t mode;
 	SDL_Color mod;
+	int angle;
 };
 
 class TestComponent : public GameComponent {
 public:
-	TestComponent();
+	TestComponent() = default;
+
+	virtual void Init() override;
 };
 
 class TestEventHandler : public EventHandler {
@@ -35,7 +39,4 @@ public:
 	virtual void Handle(SDL_Event const& event) override;
 private:
 	void KeyEvent(Uint8 const* state);
-	void KeyDown(SDL_KeyboardEvent const& event);
-	void KeyUp(SDL_KeyboardEvent const& event);
-	Direction GetKeyDirection(SDL_Keycode key, Snek& player);
 };
