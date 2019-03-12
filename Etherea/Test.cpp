@@ -19,7 +19,7 @@ void Snek::update()
 {
 	float dt = static_cast<float>((GAME.GetTicks() - last_move) / 1000);
 	if (moving || airborne) {
-		pos += getVelocity() * dt;
+		position += getVelocity() * dt;
 		if (airborne) {
 			setFrame(Size(3, 0)); //Jumping
 			setVelocity(getVelocity() + gravity * dt);

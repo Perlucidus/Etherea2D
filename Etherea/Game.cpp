@@ -1,6 +1,5 @@
 #include "Game.hpp"
 #include "Texture.hpp"
-#include "SDLStruct.hpp"
 #include "SoundManager.hpp"
 #include "Splash.hpp"
 #include "WindowEventHandler.hpp"
@@ -94,6 +93,7 @@ void Game::Init()
 	window = Window("Etherea", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
 	renderer = window.CreateRenderer(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
 	renderer.SetDrawColor(Color(30, 30, 30));
+	renderer.SetScreenSize(Size(SCREEN_WIDTH, SCREEN_HEIGHT));
 	RegisterEventHandler<WindowEventHandler>(EventHandlerPriority::WINDOW);
 	////////////////////////////////////////////////////////////////////////////////////
 	AddComponent<TestComponent>("test");

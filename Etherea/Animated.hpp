@@ -23,7 +23,7 @@ public:
 	Animated(Animated const&) = delete;
 	void operator=(Animated const&) = delete;
 
-	Animated(string const& id, Texture const& texture, Position const& pos, Size const& size,
+	Animated(string const& id, Texture const& texture, Size const& size,
 		AnimationFrame const& frame, float base_speed, SDL_RendererFlip flip = SDL_FLIP_NONE);
 	virtual ~Animated() = default;
 

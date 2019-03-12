@@ -1,7 +1,6 @@
 #include "Splash.hpp"
-#include "SDLStruct.hpp"
 
-Splash::Splash(Texture const& texture, Uint32 delay) : Renderable("splash", texture, Position(0)), timer(delay)
+Splash::Splash(Texture const& texture, Uint32 delay) : Renderable("splash", texture), timer(delay)
 {
 	timer.setCallback(&Splash::end);
 	timer.start(nullptr);
@@ -17,7 +16,7 @@ void Splash::draw(Renderer & renderer)
 	SDL_Color color = texture.GetColorMod();
 	color.a = static_cast<Uint8>((progress < ratio ? (progress / ratio) : ((1 - progress) / (1 - ratio))) * 255);
 	texture.ColorMod(color);
-	renderer.CopyTo(texture, Rect(pos, size));
+	renderer.CopyTo(texture, Rectangle(Position(0), size));
 }
 
 void Splash::update() {}

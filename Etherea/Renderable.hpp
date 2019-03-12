@@ -12,8 +12,8 @@ public:
 	Renderable(Renderable const&) = delete;
 	void operator=(Renderable const&) = delete;
 
-	Renderable(string const& id, Texture const& texture, Position const& pos, Size const& size = Size(0), SDL_RendererFlip flip = SDL_FLIP_NONE)
-		: id(id), texture(texture), pos(pos), size(size), flip(flip), shown(true) {}
+	Renderable(string const& id, Texture const& texture, Size const& size = Size(0), SDL_RendererFlip flip = SDL_FLIP_NONE)
+		: id(id), texture(texture), size(size), flip(flip), shown(true) {}
 	virtual ~Renderable() = default;
 
 	virtual void draw(Renderer& renderer) = 0;
@@ -29,7 +29,6 @@ public:
 protected:
 	string id;
 	Texture texture;
-	Position pos;
 	Size size;
 	SDL_RendererFlip flip;
 	bool shown;

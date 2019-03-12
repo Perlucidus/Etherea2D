@@ -3,12 +3,12 @@
 #include <cmath>
 #include <ostream>
 
-template<typename IntegerType>
+template<typename FType>
 class Vector2D {
 public:
 	Vector2D();
-	explicit Vector2D(IntegerType const& scalar);
-	Vector2D(IntegerType const& x, IntegerType const& y);
+	explicit Vector2D(FType const& scalar);
+	Vector2D(FType const& x, FType const& y);
 	Vector2D(Vector2D const&) = default;
 
 	Vector2D& operator=(Vector2D const&) = default;
@@ -21,185 +21,187 @@ public:
 	Vector2D operator+(Vector2D const& other) const;
 	Vector2D operator-(Vector2D const& other) const;
 	Vector2D operator*(Vector2D const& other) const;
-	Vector2D operator*(IntegerType const& scalar) const;
-	Vector2D operator/(IntegerType const& scalar) const;
+	Vector2D operator*(FType const& scalar) const;
+	Vector2D operator/(FType const& scalar) const;
 	Vector2D& operator+=(Vector2D const& other);
 	Vector2D& operator-=(Vector2D const& other);
 	Vector2D& operator*=(Vector2D const& other);
-	Vector2D& operator*=(IntegerType const& scalar);
-	Vector2D& operator/=(IntegerType const& scalar);
+	Vector2D& operator*=(FType const& scalar);
+	Vector2D& operator/=(FType const& scalar);
 
-	template<typename IntegerType2>
-	explicit operator Vector2D<IntegerType2>() const;
+	template<typename FType2>
+	explicit operator Vector2D<FType2>() const;
 
-	IntegerType euclidean_norm() const;
+	FType euclidean_norm() const;
 	bool is_normalized() const;
 	Vector2D normalized() const;
 	void normalize();
 
-	template<typename IntegerType>
-	friend std::ostream& operator<<(std::ostream& out, Vector2D<IntegerType> vec);
+	template<typename FType>
+	friend std::ostream& operator<<(std::ostream& out, Vector2D<FType> vec);
 public:
-	IntegerType x, y;
+	typedef FType Type;
+
+	FType x, y;
 };
 
 using Position = Vector2D<float>;
-using Size = Vector2D<Uint32>;
+using Size = Vector2D<uint32_t>;
 using Direction = Vector2D<float>;
 using Velocity = Vector2D<float>;
 
-template<typename IntegerType>
-inline Vector2D<IntegerType>::Vector2D() : x(0), y(0) {}
+template<typename FType>
+inline Vector2D<FType>::Vector2D() : x(0), y(0) {}
 
-template<typename IntegerType>
-inline Vector2D<IntegerType>::Vector2D(IntegerType const & scalar) : x(scalar), y(scalar) {}
+template<typename FType>
+inline Vector2D<FType>::Vector2D(FType const & scalar) : x(scalar), y(scalar) {}
 
-template<typename IntegerType>
-inline Vector2D<IntegerType>::Vector2D(IntegerType const & x, IntegerType const & y) : x(x), y(y) {}
+template<typename FType>
+inline Vector2D<FType>::Vector2D(FType const & x, FType const & y) : x(x), y(y) {}
 
-template<typename IntegerType>
-inline bool Vector2D<IntegerType>::operator==(const Vector2D & other) const
+template<typename FType>
+inline bool Vector2D<FType>::operator==(const Vector2D & other) const
 {
 	return x == other.x && y == other.y;
 }
 
-template<typename IntegerType>
-inline bool Vector2D<IntegerType>::operator!=(const Vector2D & other) const
+template<typename FType>
+inline bool Vector2D<FType>::operator!=(const Vector2D & other) const
 {
 	return x != other.x || y != other.y;
 }
 
-template<typename IntegerType>
-inline bool Vector2D<IntegerType>::operator<=(const Vector2D & other) const
+template<typename FType>
+inline bool Vector2D<FType>::operator<=(const Vector2D & other) const
 {
 	return euclidean_norm() <= other.euclidean_norm();
 }
 
-template<typename IntegerType>
-inline bool Vector2D<IntegerType>::operator>=(const Vector2D & other) const
+template<typename FType>
+inline bool Vector2D<FType>::operator>=(const Vector2D & other) const
 {
 	return euclidean_norm() >= other.euclidean_norm();
 }
 
-template<typename IntegerType>
-inline bool Vector2D<IntegerType>::operator<(const Vector2D & other) const
+template<typename FType>
+inline bool Vector2D<FType>::operator<(const Vector2D & other) const
 {
 	return euclidean_norm() < other.euclidean_norm();
 }
 
-template<typename IntegerType>
-inline bool Vector2D<IntegerType>::operator>(const Vector2D & other) const
+template<typename FType>
+inline bool Vector2D<FType>::operator>(const Vector2D & other) const
 {
 	return euclidean_norm() > other.euclidean_norm();
 }
 
-template<typename IntegerType>
-inline Vector2D<IntegerType> Vector2D<IntegerType>::operator+(Vector2D<IntegerType> const & other) const
+template<typename FType>
+inline Vector2D<FType> Vector2D<FType>::operator+(Vector2D<FType> const & other) const
 {
 	return Vector2D(x + other.x, y + other.y);
 }
 
-template<typename IntegerType>
-inline Vector2D<IntegerType> Vector2D<IntegerType>::operator-(Vector2D<IntegerType> const & other) const
+template<typename FType>
+inline Vector2D<FType> Vector2D<FType>::operator-(Vector2D<FType> const & other) const
 {
 	return Vector2D(x - other.x, y - other.y);
 }
 
-template<typename IntegerType>
-inline Vector2D<IntegerType> Vector2D<IntegerType>::operator*(Vector2D<IntegerType> const & other) const
+template<typename FType>
+inline Vector2D<FType> Vector2D<FType>::operator*(Vector2D<FType> const & other) const
 {
 	return Vector2D(x * other.x, y * other.y);
 }
 
-template<typename IntegerType>
-inline Vector2D<IntegerType> Vector2D<IntegerType>::operator*(IntegerType const & scalar) const
+template<typename FType>
+inline Vector2D<FType> Vector2D<FType>::operator*(FType const & scalar) const
 {
 	return Vector2D(x * scalar, y * scalar);
 }
 
-template<typename IntegerType>
-inline Vector2D<IntegerType> Vector2D<IntegerType>::operator/(IntegerType const & scalar) const
+template<typename FType>
+inline Vector2D<FType> Vector2D<FType>::operator/(FType const & scalar) const
 {
 	return Vector2D(x / scalar, y / scalar);
 }
 
-template<typename IntegerType>
-inline Vector2D<IntegerType> & Vector2D<IntegerType>::operator+=(Vector2D<IntegerType> const & other)
+template<typename FType>
+inline Vector2D<FType> & Vector2D<FType>::operator+=(Vector2D<FType> const & other)
 {
 	x += other.x;
 	y += other.y;
 	return *this;
 }
 
-template<typename IntegerType>
-inline Vector2D<IntegerType> & Vector2D<IntegerType>::operator-=(Vector2D<IntegerType> const & other)
+template<typename FType>
+inline Vector2D<FType> & Vector2D<FType>::operator-=(Vector2D<FType> const & other)
 {
 	x -= other.x;
 	y -= other.y;
 	return *this;
 }
 
-template<typename IntegerType>
-inline Vector2D<IntegerType> & Vector2D<IntegerType>::operator*=(Vector2D<IntegerType> const & other)
+template<typename FType>
+inline Vector2D<FType> & Vector2D<FType>::operator*=(Vector2D<FType> const & other)
 {
 	x *= other.x;
 	y *= other.y;
 	return *this;
 }
 
-template<typename IntegerType>
-inline Vector2D<IntegerType> & Vector2D<IntegerType>::operator*=(IntegerType const & scalar)
+template<typename FType>
+inline Vector2D<FType> & Vector2D<FType>::operator*=(FType const & scalar)
 {
 	x *= scalar;
 	y *= scalar;
 	return *this;
 }
 
-template<typename IntegerType>
-inline Vector2D<IntegerType> & Vector2D<IntegerType>::operator/=(IntegerType const & scalar)
+template<typename FType>
+inline Vector2D<FType> & Vector2D<FType>::operator/=(FType const & scalar)
 {
 	x /= scalar;
 	y /= scalar;
 	return *this;
 }
 
-template<typename IntegerType>
-inline IntegerType Vector2D<IntegerType>::euclidean_norm() const
+template<typename FType>
+inline FType Vector2D<FType>::euclidean_norm() const
 {
-	return static_cast<IntegerType>(std::sqrtl(std::powl(x, 2) + std::powl(y, 2)));
+	return static_cast<FType>(std::sqrtl(std::powl(x, 2) + std::powl(y, 2)));
 }
 
-template<typename IntegerType>
-inline bool Vector2D<IntegerType>::is_normalized() const
+template<typename FType>
+inline bool Vector2D<FType>::is_normalized() const
 {
 	return euclidean_norm() == 1;
 }
 
-template<typename IntegerType>
-inline Vector2D<IntegerType> Vector2D<IntegerType>::normalized() const
+template<typename FType>
+inline Vector2D<FType> Vector2D<FType>::normalized() const
 {
-	IntegerType norm = euclidean_norm();
+	FType norm = euclidean_norm();
 	if (!norm) throw std::logic_error("Can't normalize a zero vector");
 	return *this / norm;
 }
 
-template<typename IntegerType>
-inline void Vector2D<IntegerType>::normalize()
+template<typename FType>
+inline void Vector2D<FType>::normalize()
 {
-	IntegerType norm = euclidean_norm();
+	FType norm = euclidean_norm();
 	if (!norm) throw std::logic_error("Can't normalize a zero vector");
 	*this /= norm;
 }
 
-template<typename IntegerType>
-template<typename IntegerType2>
-inline Vector2D<IntegerType>::operator Vector2D<IntegerType2>() const
+template<typename FType>
+template<typename FType2>
+inline Vector2D<FType>::operator Vector2D<FType2>() const
 {
-	return Vector2D<IntegerType2>(static_cast<IntegerType2>(x), static_cast<IntegerType2>(y));
+	return Vector2D<FType2>(static_cast<FType2>(x), static_cast<FType2>(y));
 }
 
-template<typename IntegerType>
-inline std::ostream & operator<<(std::ostream & out, Vector2D<IntegerType> vec)
+template<typename FType>
+inline std::ostream & operator<<(std::ostream & out, Vector2D<FType> vec)
 {
 	out << "(" << vec.x << ", " << vec.y << ")";
 	return out;

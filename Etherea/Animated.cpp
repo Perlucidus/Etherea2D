@@ -24,9 +24,9 @@ Size const& AnimationFrame::getFrame() const
 	return current;
 }
 
-Animated::Animated(string const& id, Texture const& texture, Position const& pos, Size const& size,
+Animated::Animated(string const& id, Texture const& texture, Size const& size,
 	AnimationFrame const & frame, float base_speed, SDL_RendererFlip flip)
-	: Renderable(id, texture, pos, size, flip), frame(frame), prev_update(0),
+	: Renderable(id, texture, size, flip), frame(frame), prev_update(0),
 	base_speed(base_speed), animation_speed(base_speed) {}
 
 void Animated::update()

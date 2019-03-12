@@ -25,6 +25,7 @@ public:
 	// Inherited via Renderable
 	virtual void draw(Renderer & renderer) override;
 protected:
+	Position position;
 	Direction facing;
 	double last_move;
 	bool moving;

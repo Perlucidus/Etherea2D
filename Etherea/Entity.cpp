@@ -1,12 +1,11 @@
 #include "Entity.hpp"
 #include "Renderer.hpp"
-#include "SDLStruct.hpp"
 #include <algorithm>
 
 Entity::Entity(string const& id, Texture const& texture, Position const& pos, Size const& size,
 	Size const& frameSize, float base_speed, SDL_RendererFlip flip)
-	: Animated(id, texture, pos, size, AnimationFrame(frameSize), base_speed, flip),
-	moving(false), velocity(0), gravity(0), last_move(SDL_GetTicks()) {}
+	: Animated(id, texture, size, AnimationFrame(frameSize), base_speed, flip),
+	position(pos), moving(false), velocity(0), gravity(0), last_move(SDL_GetTicks()) {}
 
 Direction Entity::getFacingDirection() const
 {
@@ -65,7 +64,7 @@ void Entity::draw(Renderer& renderer)
 {
 	if (!shown)
 		return;
-	Rect src(static_cast<Position>(size * getAnimationFrame().getFrame()), size), dst(pos, size);
+	Rectangle src(static_cast<Position>(size * getAnimationFrame().getFrame()), size), dst(position, size);
 	Uint32 f = flip;
 	if (facing.x < 0) f ^= SDL_FLIP_HORIZONTAL;
 	if (facing.y < 0) f ^= SDL_FLIP_VERTICAL;
