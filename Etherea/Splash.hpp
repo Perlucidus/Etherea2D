@@ -1,9 +1,10 @@
 #pragma once
 
-#include "Renderable.hpp"
+#include "Entity.hpp"
+#include "RenderComponent.hpp"
 #include "Game.hpp"
 
-class Splash : public Renderable {
+class Splash : public Entity {
 public:
 	Splash(Texture const& texture, Uint32 delay);
 
@@ -14,6 +15,7 @@ public:
 private:
 	static TimerResult end(Uint32 interval, void* param);
 private:
+	RenderComponent render;
 	Timer timer;
 	Uint32 start;
 };

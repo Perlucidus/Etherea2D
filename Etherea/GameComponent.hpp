@@ -1,9 +1,9 @@
 #pragma once
 
-#include "Renderable.hpp"
+#include "Entity.hpp"
 #include <map>
 
-using ObjectMap = std::map<string, unique_ptr<Renderable>>;
+using ObjectMap = std::map<string, unique_ptr<Entity>>;
 
 class GameComponent {
 public:
@@ -14,9 +14,9 @@ public:
 
 	virtual void Init() = 0;
 
-	void Update();
-	void Render(Renderer& renderer);
-	void Cleanup();
+	virtual void Update();
+	virtual void Render(Renderer& renderer);
+	virtual void Cleanup();
 
 	template<typename RenderableT>
 	RenderableT& GetObject(ObjectMap::key_type const& key);

@@ -15,6 +15,8 @@ public:
 	Renderer CreateRenderer(Uint32 flags);
 	Renderer CreateRenderer(int index, Uint32 flags);
 	PixelFormat GetPixelFormat();
+	string GetTitle();
+	void SetTitle(string const& title);
 private:
 	shared_ptr<SDL_Window> ptr;
 };

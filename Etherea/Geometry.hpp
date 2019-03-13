@@ -36,6 +36,7 @@ class Rectangle {
 public:
 	Rectangle();
 	Rectangle(Point const& p1, Point const& p2);
+	Rectangle(Point const& tl, Size const& size);
 	Rectangle(Position const& tl, Size const& size);
 	Rectangle(Rectangle const& other);
 	Rectangle(SDL_Rect const& rect);

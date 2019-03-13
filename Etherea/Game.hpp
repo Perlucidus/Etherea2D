@@ -52,13 +52,14 @@ private:
 public:
 	static const double TICK_RATE;
 private:
-	double ticks, lastTick;
+	double ticks, last_tick, loopTime;
 	GameState state;
 	Window window;
 	Renderer renderer;
 	map<int, unique_ptr<EventHandler>> eventHandlers;
 	map<string, unique_ptr<GameComponent>> components;
 	map<SDL_TimerID, Timer> timers;
+	double fps, last_status_update; //LOG
 };
 
 template<typename ComponentT>

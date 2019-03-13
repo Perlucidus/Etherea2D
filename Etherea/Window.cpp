@@ -27,3 +27,13 @@ PixelFormat Window::GetPixelFormat()
 {
 	return PixelFormat(SDL_AllocFormat(SDL_GetWindowPixelFormat(ptr.get())));
 }
+
+string Window::GetTitle()
+{
+	return SDL_GetWindowTitle(ptr.get());
+}
+
+void Window::SetTitle(string const& title)
+{
+	SDL_SetWindowTitle(ptr.get(), title.c_str());
+}

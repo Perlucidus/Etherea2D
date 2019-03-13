@@ -144,8 +144,7 @@
     </Bscmake>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="Animated.cpp" />
-    <ClCompile Include="Entity.cpp" />
+    <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -153,9 +152,11 @@
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MovementComponent.cpp" />
     <ClCompile Include="Music.cpp" />
     <ClCompile Include="PixelFormat.cpp" />
     <ClCompile Include="Random.cpp" />
+    <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Sample.cpp" />
     <ClCompile Include="SoundManager.cpp" />
@@ -169,18 +170,21 @@
     <ClCompile Include="World.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Animated.hpp" />
-    <ClInclude Include="Chunk.hpp" />
+    <ClInclude Include="AnimationComponent.hpp" />
     <ClInclude Include="Entity.hpp" />
+    <ClInclude Include="EntityComponent.hpp" />
     <ClInclude Include="Exception.hpp" />
+    <ClInclude Include="FaceComponent.hpp" />
     <ClInclude Include="GameComponent.hpp" />
     <ClInclude Include="Geometry.hpp" />
+    <ClInclude Include="GravityComponent.hpp" />
     <ClInclude Include="GUIComponent.hpp" />
     <ClInclude Include="MenuItem.hpp" />
     <ClInclude Include="PixelFormat.hpp" />
-    <ClInclude Include="Renderable.hpp" />
+    <ClInclude Include="LocationComponent.hpp" />
     <ClInclude Include="Music.hpp" />
     <ClInclude Include="Random.hpp" />
+    <ClInclude Include="RenderComponent.hpp" />
     <ClInclude Include="SoundManager.hpp" />
     <ClInclude Include="Splash.hpp" />
     <ClInclude Include="Test.hpp" />
@@ -197,6 +201,7 @@
     <ClInclude Include="Tile.hpp" />
     <ClInclude Include="Timer.hpp" />
     <ClInclude Include="Vector2D.hpp" />
+    <ClInclude Include="MovementComponent.hpp" />
     <ClInclude Include="Window.hpp" />
     <ClInclude Include="WindowEventHandler.hpp" />
     <ClInclude Include="World.hpp" />

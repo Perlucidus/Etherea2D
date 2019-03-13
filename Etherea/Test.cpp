@@ -1,37 +1,57 @@
 #include "Test.hpp"
 
-Snek::Snek() : Entity("snake", Texture(), Position(), Size(134, 134), Size(4, 1),
-	0.1f, SDL_FLIP_HORIZONTAL), v(Velocity(100, 100)), mode(0), mod(Color(255, 255, 255))
+Snek::Snek() : Entity("snake"), render(Texture()), animation(Size(4, 1), Size(134, 134)), face(Direction(1, 0)),
+location(Point(0, 0)), movement(Velocity(0)), gravity(10), v(Velocity(100, 100)), s(0.1f), mode(0), mod(Color(255, 255, 255))
 {
-	texture = t = GAME.GetRenderer().LoadTexture("../assets/textures/char2-alpha.png");
+	t = GAME.GetRenderer().LoadTexture("../assets/textures/char2-alpha.png");
 	t120l = GAME.GetRenderer().LoadTexture("../assets/textures/char2-alpha120l.png");
 	t120r = GAME.GetRenderer().LoadTexture("../assets/textures/char2-alpha120r.png");
-	facing = Direction(1, 0);
+	render.setTexture(t);
+	render.setRotationCenter(Point(40, 40));
+	render.setFlip(SDL_FLIP_HORIZONTAL);
+	face.face(Direction(1, 0));
 }
 
 void Snek::draw(Renderer & renderer)
 {
-	texture.ColorMod(mod);
-	Entity::draw(renderer);
+	if (!render.isEnabled())
+		return;
+	Rectangle src = animation.getFrameRectangle(), dst(location.getLocation(), animation.getFrameSize());
+	Uint32 f = render.getFlip();
+	Direction facing = face.getFacingDirection();
+	if (facing.x < 0) f ^= SDL_FLIP_HORIZONTAL;
+	if (facing.y < 0) f ^= SDL_FLIP_VERTICAL;
+	double rads;
+	if (facing.x == 0)
+		rads = facing.y * M_PI / 2;
+	else
+		rads = atan(static_cast<double>(facing.y) / facing.x);
+	double angle = rads / M_PI * 180.;
+	render.getTexture().ColorMod(mod);
+	renderer.CopyEx(render.getTexture(), src, dst, angle, render.getRotationCenter(), static_cast<SDL_RendererFlip>(f));
 }
 
 void Snek::update()
 {
-	float dt = static_cast<float>((GAME.GetTicks() - last_move) / 1000);
-	if (moving || airborne) {
-		position += getVelocity() * dt;
-		if (airborne) {
-			setFrame(Size(3, 0)); //Jumping
-			setVelocity(getVelocity() + gravity * dt);
-		}
-		else advanceFrame(Size(1, 0));
+	bool animate = animation.canAnimate();
+	if (movement.isEnabled()) {
+		location.setLocation(location.getLocation() + Point(movement.getMovementDistance()));
+		if (animate)
+			animation.cycleColumn();
 	}
-	else setFrame(Size(3, 0)); //Standing
-	last_move = GAME.GetTicks();
-	Entity::update();
+	else animation.setCurrentFrame(Size(3, 0)); //Standing
+	movement.updateMovementTimer();
+	if (animate)
+		animation.updateAnimationTimer();
 }
 
 void Snek::clean() {}
+
+void Snek::setVelocity(Velocity velocity)
+{
+	movement.setVelocity(velocity);
+	animation.setAnimationSpeed(s * std::abs(velocity.x));
+}
 
 void TestComponent::Init()
 {
@@ -64,9 +84,9 @@ void TestEventHandler::KeyEvent(Uint8 const* state)
 	Uint8 mode = state[SDL_SCANCODE_TAB];
 	if (mode) player.mode = (player.mode + 1) % 3;
 	if (player.mode == 0) {
-		player.setTexture(player.t);
+		player.render.setTexture(player.t);
 		if (!right && !left && !down && !up) {
-			player.setMoving(false);
+			player.movement.disable();
 			player.mod = Color(255, 255, 255);
 			return;
 		}
@@ -75,38 +95,44 @@ void TestEventHandler::KeyEvent(Uint8 const* state)
 		if (left) x -= 1;
 		if (down) y += 1;
 		if (up) y -= 1;
-		player.face(Direction(static_cast<float>(x), static_cast<float>(y)));
+		if (!x && !y)
+			player.face.face(Direction(1, 0));
+		else
+			player.face.face(Direction(static_cast<float>(x), static_cast<float>(y)));
 		player.mod = Color(rnd.next(255), rnd.next(255), rnd.next(255));
-		player.setVelocity(player.getFacingDirection() * player.v);
-		player.setMoving(true);
+		player.setVelocity(player.face.getFacingDirection() * player.v);
+		player.movement.enable();
 	}
 	else if (player.mode == 1) {
-		player.setTexture(player.t120l);
+		player.render.setTexture(player.t120l);
 		if (right || left) {
-			player.face(Direction(right ? 1.f : left ? -1.f : 0, 0));
-			player.setVelocity(Velocity(player.v.x * player.getFacingDirection().x, player.getVelocity().y));
-			player.setMoving(true);
+			player.face.face(Direction(right ? 1.f : left ? -1.f : 0, 0));
+			player.setVelocity(Velocity(player.v.x * player.face.getFacingDirection().x, player.movement.getVelocity().y));
+			player.movement.enable();
 		}
-		else player.setMoving(false);
-		if (up && !player.isAirborne()) {
+		else player.movement.disable();
+		/*if (up && !player.isAirborne()) {
 			player.setAirborne(true);
 			player.setGravity(Velocity(0, 1));
 			player.setVelocity(Velocity(player.getVelocity().x, -player.v.y));
-		}
+		}*/
 	}
 	else if (player.mode == 2) {
-		player.setTexture(player.t120r);
-		if (right) player.angle = (player.angle + 5) % 360;
-		if (left) player.angle = (player.angle - 5) % 360;
-		float rads = player.angle / 180 * static_cast<float>(M_PI);
+		player.render.setTexture(player.t120r);
+		if (right) player.render.setRenderAngle((static_cast<int>(player.render.getRenderAngle()) + 5) % 360);
+		if (left) player.render.setRenderAngle((static_cast<int>(player.render.getRenderAngle()) - 5) % 360);
+		float rads = static_cast<float>(player.render.getRenderAngle()) / 180 * static_cast<float>(M_PI);
 		float x = cos(rads);
 		float y = sin(rads);
-		player.face(Direction(x, y));
+		if (!x && !y)
+			player.face.face(Direction(1, 0));
+		else
+			player.face.face(Direction(x, y));
 		if (up || down) {
 			player.mod = Color(rnd.next(255), rnd.next(255), rnd.next(255));
 			player.setVelocity(Velocity(x, y) * player.v * (up ? 1.f : down ? -1.f : 0));
-			player.setMoving(true);
+			player.movement.enable();
 		}
-		else player.setMoving(false);
+		else player.movement.disable();
 	}
 }

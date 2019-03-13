@@ -38,7 +38,7 @@ void Game::Start()
 {
 	try {
 		Init();
-		lastTick = SDL_GetTicks();
+		last_tick = SDL_GetTicks();
 		while (state != +GameState::Exiting)
 			GameLoop();
 	}
@@ -55,19 +55,24 @@ void Game::GameLoop()
 {
 	HandleEvents();
 	double tick = SDL_GetTicks();
-	double loopTime = tick - lastTick;
-	lastTick = tick;
-	while (loopTime >= TICK_RATE) {
+	double frameTime = tick - last_tick;
+	fps = 1000 / frameTime; //LOG
+	last_tick = tick;
+	while (frameTime >= TICK_RATE) {
 		Update();
-		loopTime -= TICK_RATE;
+		frameTime -= TICK_RATE;
 		ticks += TICK_RATE;
 	}
-	lastTick -= loopTime;
+	last_tick -= frameTime;
 	Render();
 }
 
 void Game::Update()
 {
+	if (SDL_GetTicks() - last_status_update > 100) {
+		window.SetTitle("Etherea | " + std::to_string(static_cast<int>(fps)) + " FPS");
+		last_status_update = SDL_GetTicks();
+	}
 	for (auto&& component : components)
 		component.second->Update();
 }

@@ -18,6 +18,11 @@ void Texture::Query(Size & size)
 	size = Size(w, h);
 }
 
+bool Texture::isLoaded() const
+{
+	return ptr.get();
+}
+
 void Texture::Query(Uint32& format, int& access, int& width, int& height)
 {
 	query(&format, &access, &width, &height);

@@ -74,6 +74,8 @@ Rectangle::Rectangle() : tl(0, 0), br(0, 0) {}
 
 Rectangle::Rectangle(Point const& p1, Point const& p2) : tl(std::min(p1, p2)), br(std::max(p1, p2)) {}
 
+Rectangle::Rectangle(Point const & tl, Size const & size) : tl(tl), br(tl + Point(static_cast<Position>(size))) {}
+
 Rectangle::Rectangle(Position const & tl, Size const & size) : tl(tl), br(tl + static_cast<Position>(size)) {}
 
 Rectangle::Rectangle(Rectangle const& other) : Rectangle(other.tl, other.br) {}
