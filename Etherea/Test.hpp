@@ -1,16 +1,10 @@
 #pragma once
 
 #include "Entity.hpp"
-#include "RenderComponent.hpp"
-#include "AnimationComponent.hpp"
-#include "FaceComponent.hpp"
-#include "GravityComponent.hpp"
-#include "LocationComponent.hpp"
-#include "MovementComponent.hpp"
 #include "GameComponent.hpp"
 #include "SoundManager.hpp"
 #include "Splash.hpp"
-#include "Random.hpp"
+#include "World.hpp"
 
 //////////////////////////////
 //	For Testing Purposes	//
@@ -27,13 +21,6 @@ public:
 public:
 	void setVelocity(Velocity velocity);
 public:
-	RenderComponent render;
-	AnimationComponent animation;
-	FaceComponent face;
-	LocationComponent location;
-	MovementComponent movement;
-	GravityComponent gravity;
-
 	Texture t, t120l, t120r;
 	const Velocity v;
 	const float s;
@@ -41,17 +28,31 @@ public:
 	SDL_Color mod;
 };
 
-class TestComponent : public GameComponent {
+class Plant : public Entity {
 public:
-	TestComponent() = default;
+	Plant(string const& id);
 
-	virtual void Init() override;
+	// Inherited via Entity
+	virtual void draw(Renderer & renderer) override;
+	virtual void update() override;
+	virtual void clean() override;
+public:
+	Texture t, t120l, t120r;
+};
+
+class TestWorld : public World {
+public:
+	TestWorld() = default;
+
+	// Inherited via World
+	virtual void initialize() override;
+	virtual void update() override;
 };
 
 class TestEventHandler : public EventHandler {
 public:
 	// Inherited via EventHandler
-	virtual void Handle(SDL_Event const& event) override;
+	virtual bool handle(SDL_Event const& event) override;
 private:
 	void KeyEvent(Uint8 const* state);
 };

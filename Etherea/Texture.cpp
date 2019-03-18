@@ -18,6 +18,11 @@ void Texture::Query(Size & size)
 	size = Size(w, h);
 }
 
+bool Texture::operator==(Texture const & other) const
+{
+	return ptr == other.ptr;
+}
+
 bool Texture::isLoaded() const
 {
 	return ptr.get();

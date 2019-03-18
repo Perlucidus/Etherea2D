@@ -9,7 +9,7 @@ public:
 	Vector2D();
 	explicit Vector2D(FType const& scalar);
 	Vector2D(FType const& x, FType const& y);
-	Vector2D(Vector2D const&) = default;
+	Vector2D(Vector2D const&);
 
 	Vector2D& operator=(Vector2D const&) = default;
 	bool operator==(Vector2D const& other) const;
@@ -58,6 +58,9 @@ inline Vector2D<FType>::Vector2D(FType const & scalar) : x(scalar), y(scalar) {}
 
 template<typename FType>
 inline Vector2D<FType>::Vector2D(FType const & x, FType const & y) : x(x), y(y) {}
+
+template<typename FType>
+inline Vector2D<FType>::Vector2D(Vector2D const & other) : x(other.x), y(other.y) {}
 
 template<typename FType>
 inline bool Vector2D<FType>::operator==(const Vector2D & other) const

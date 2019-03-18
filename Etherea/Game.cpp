@@ -8,7 +8,7 @@
 const int SCREEN_WIDTH = 800;
 const int SCREEN_HEIGHT = 600;
 
-const double Game::TICK_RATE = 1. / 60.;
+const double Game::TICK_RATE = 1000. / 180.; //180 ticks per second
 
 Game::Game() : state(GameState::Running), ticks(0) {}
 
@@ -74,14 +74,15 @@ void Game::Update()
 		last_status_update = SDL_GetTicks();
 	}
 	for (auto&& component : components)
-		component.second->Update();
+		component.second->update();
 }
 
 void Game::Render()
 {
+	renderer.SetDrawColor(Color(30, 30, 30)); //Default bg
 	renderer.Clear();
 	for (auto&& component : components)
-		component.second->Render(renderer);
+		component.second->render(renderer);
 	renderer.Present();
 }
 
@@ -96,14 +97,13 @@ void Game::Init()
 {
 	STDLOG << "Initializing";
 	window = Window("Etherea", SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-	renderer = window.CreateRenderer(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC | SDL_RENDERER_TARGETTEXTURE);
-	renderer.SetDrawColor(Color(30, 30, 30));
+	renderer = window.CreateRenderer(SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 	renderer.SetScreenSize(Size(SCREEN_WIDTH, SCREEN_HEIGHT));
 	RegisterEventHandler<WindowEventHandler>(EventHandlerPriority::WINDOW);
 	////////////////////////////////////////////////////////////////////////////////////
-	AddComponent<TestComponent>("test");
+	AddComponent<TestWorld>("test");
 	////////////////////////////////////////////////////////////////////////////////////
-	AddComponent<SplashScreen>("splash").Init();
+	AddComponent<SplashScreen>("splash").initialize();
 }
 
 void Game::HandleEvents()
@@ -121,6 +121,8 @@ void Game::Cleanup()
 {
 	for (auto&& timer : timers)
 		timer.second.abort();
+	timers.clear();
 	for (auto&& component : components)
-		component.second->Cleanup();
+		component.second->clean();
+	components.clear();
 }

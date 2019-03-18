@@ -16,6 +16,8 @@ public:
 	explicit Texture(SDL_Texture* texture);
 	virtual ~Texture() = default;
 public:
+	bool operator==(Texture const& other) const;
+
 	bool isLoaded() const;
 	void Query(Uint32& format, int& access, int& width, int& height);
 	void Query(int& width, int& height);

@@ -5,9 +5,9 @@
 
 enum class TimerResult
 {
-	ABORT,
 	CONTINUE,
-	RESET
+	RESET,
+	ABORT
 };
 
 using TimerCallback = std::function<TimerResult(Uint32 interval, void* param)>;
@@ -20,15 +20,16 @@ public:
 	virtual ~Timer();
 
 	Uint32 getDelay() const;
+	bool isRunning() const;
 
 	void setCallback(TimerCallback callback);
 	void start(void* param);
 	void abort();
 private:
-	struct TimerCallbackData { TimerCallback callback; void* param; } callback;
 	static Uint32 SDLCALL tick(Uint32 interval, void* data);
 private:
 	SDL_TimerID id;
-	TimerCallbackData data;
+	TimerCallback callback;
+	void* param;
 	Uint32 delay;
 };

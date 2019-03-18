@@ -1,4 +1,11 @@
 #include "EventHandler.hpp"
+#include "Common.hpp"
+
+void EventHandler::Handle(SDL_Event const& event)
+{
+	if (handle(event) && event.type == SDL_USEREVENT)
+		delete static_cast<CustomEventData*>(event.user.data1);
+}
 
 void EventHandler::PushCustomEvent(CustomEvent code, void* data1, void* data2)
 {

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Common.hpp"
-#include "PixelFormat.hpp"
 #include "Geometry.hpp"
  
 class Surface;
@@ -22,6 +21,9 @@ public:
 	void SetTarget(Texture const& texture);
 	void ClearTarget();
 
+	void DrawPoint(Point const& point);
+	void DrawLine(Point const& p1, Point const& p2);
+	void DrawRectangle(Rectangle const& rect);
 	void Copy(Texture const& texture, Rectangle const& from, Rectangle const& to);
 	void CopyFrom(Texture const& texture, Rectangle const& from);
 	void CopyTo(Texture const& texture, Rectangle const& to);

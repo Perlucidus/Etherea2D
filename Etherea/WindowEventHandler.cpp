@@ -1,10 +1,11 @@
 #include "WindowEventHandler.hpp"
 #include "Game.hpp"
 
-void WindowEventHandler::Handle(SDL_Event const& event)
+bool WindowEventHandler::handle(SDL_Event const& event)
 {
 	switch (event.type) {
 	case SDL_WINDOWEVENT:
-		break;
+		return true;
 	}
+	return false;
 }

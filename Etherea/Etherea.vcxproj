@@ -145,10 +145,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AnimationComponent.cpp" />
+    <ClCompile Include="CustomEventData.cpp" />
     <ClCompile Include="EventHandler.cpp" />
     <ClCompile Include="Exception.cpp" />
     <ClCompile Include="Game.cpp" />
-    <ClCompile Include="GameComponent.cpp" />
     <ClCompile Include="Geometry.cpp" />
     <ClCompile Include="Log.cpp" />
     <ClCompile Include="main.cpp" />
@@ -171,6 +171,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AnimationComponent.hpp" />
+    <ClInclude Include="CustomEventData.hpp" />
     <ClInclude Include="Entity.hpp" />
     <ClInclude Include="EntityComponent.hpp" />
     <ClInclude Include="Exception.hpp" />
@@ -180,6 +181,7 @@
     <ClInclude Include="GravityComponent.hpp" />
     <ClInclude Include="GUIComponent.hpp" />
     <ClInclude Include="MenuItem.hpp" />
+    <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="PixelFormat.hpp" />
     <ClInclude Include="LocationComponent.hpp" />
     <ClInclude Include="Music.hpp" />

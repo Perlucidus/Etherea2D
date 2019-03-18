@@ -59,28 +59,20 @@ private:
 	map<int, unique_ptr<EventHandler>> eventHandlers;
 	map<string, unique_ptr<GameComponent>> components;
 	map<SDL_TimerID, Timer> timers;
-	double fps, last_status_update; //LOG
+	//LOG
+	double fps, last_status_update;
 };
 
 template<typename ComponentT>
 inline ComponentT& Game::AddComponent(string const& id)
 {
-	static_assert(std::is_base_of<GameComponent, ComponentT>::value, "Invalid type argument");
-	auto lb = components.lower_bound(id);
-	if (lb != components.end() && !(components.key_comp()(id, lb->first)))
-		throw std::logic_error("Key already exists");
-	auto component = components.insert(lb, map<string, unique_ptr<ComponentT>>::value_type(id, make_unique<ComponentT>()));
-	return static_cast<ComponentT&>(*component->second);
+	return AddUniqueValueRef<ComponentT>(components, id);
 }
 
 template<typename ComponentT>
 inline ComponentT& Game::GetComponent(string const& id)
 {
-	static_assert(std::is_base_of<GameComponent, ComponentT>::value, "Invalid type argument");
-	auto it = components.find(id);
-	if (it == components.end())
-		throw std::logic_error("Key not found");
-	return dynamic_cast<ComponentT&>(*it->second);
+	return GetUniqueValueRef<ComponentT>(components, id);
 }
 
 template<typename EventHandlerT>

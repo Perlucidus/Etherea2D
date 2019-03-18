@@ -34,5 +34,5 @@ Log::~Log()
 
 Log& Log::operator<<(ILoggable const& val)
 {
-	*this << val.toString();
+	return *this << val.toString();
 }

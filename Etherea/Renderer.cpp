@@ -49,6 +49,25 @@ void Renderer::ClearTarget()
 		throw RenderException();
 }
 
+void Renderer::DrawPoint(Point const & point)
+{
+	if (SDL_RenderDrawPoint(ptr.get(), static_cast<int>(point->x), static_cast<int>(point->y)))
+		throw RenderException();
+}
+
+void Renderer::DrawLine(Point const & p1, Point const & p2)
+{
+	if (SDL_RenderDrawLine(ptr.get(), static_cast<int>(p1->x), static_cast<int>(p1->y),
+		static_cast<int>(p2->x), static_cast<int>(p2->y)))
+		throw RenderException();
+}
+
+void Renderer::DrawRectangle(Rectangle const & rect)
+{
+	if (SDL_RenderDrawRect(ptr.get(), &rect.ToSDLRect()))
+		throw RenderException();
+}
+
 void Renderer::Copy(Texture const& texture, Rectangle const & from, Rectangle const & to)
 {
 	copy(texture, &from, &to);
