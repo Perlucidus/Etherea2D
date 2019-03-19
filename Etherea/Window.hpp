@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Common.hpp"
+#include "Exception.hpp"
+#include <SDL_video.h>
 
 class Renderer;
 class PixelFormat;
@@ -20,3 +22,5 @@ public:
 private:
 	shared_ptr<SDL_Window> ptr;
 };
+
+class WindowException : public SDLException {};

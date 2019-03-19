@@ -47,6 +47,8 @@ void RenderComponent::setTextureSize(Size const & size)
 
 void RenderComponent::setRenderAngle(double angle)
 {
+	if (angle < 0 || angle >= 360)
+		throw std::logic_error("Invalid angle");
 	render_angle = angle;
 }
 

@@ -1,4 +1,6 @@
 #include "Surface.hpp"
+#include "Log.hpp"
+#include <SDL_image.h>
 
 Surface::Surface(SDL_Surface* surface)
 {

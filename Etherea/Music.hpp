@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Common.hpp"
+#include "Exception.hpp"
+#include <SDL_mixer.h>
 
 class Music {
 public:
@@ -18,3 +20,5 @@ public:
 private:
 	shared_ptr<Mix_Music> ptr;
 };
+
+class MusicException : public MixException {};

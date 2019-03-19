@@ -1,8 +1,7 @@
 #pragma once
 
 #include "CustomEventData.hpp"
-
-union SDL_Event;
+#include <SDL_events.h>
 
 BETTER_ENUM(EventHandlerPriority, uint32_t, WINDOW, SPLASH, TEST)
 

@@ -1,6 +1,7 @@
 #include "Window.hpp"
 #include "Renderer.hpp"
 #include "PixelFormat.hpp"
+#include "Log.hpp"
 
 Window::Window(string name, int x, int y, int width, int height, Uint32 flags)
 {

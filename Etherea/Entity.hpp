@@ -1,10 +1,11 @@
 #pragma once
 
+#include "IGameObject.hpp"
 #include "Renderer.hpp"
 #include "EntityComponent.hpp"
 #include <vector>
 
-class Entity {
+class Entity : public IGameObject {
 public:
 	Entity() = delete;
 	Entity(Entity const&) = delete;
@@ -14,10 +15,6 @@ public:
 	explicit Entity(string const& id) : id(id) {}
 
 	string getId() const { return id; }
-
-	virtual void draw(Renderer & renderer) = 0;
-	virtual void update() = 0;
-	virtual void clean() = 0;
 
 	template<typename ComponentT, typename... TArgs>
 	ComponentT& AddComponent(TArgs&&... args);

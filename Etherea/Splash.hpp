@@ -10,9 +10,8 @@ public:
 	Splash();
 
 	// Inherited via Renderable
-	virtual void draw(Renderer & renderer) override;
+	virtual void render(Renderer & renderer) override;
 	virtual void update() override;
-	virtual void clean() override {}
 
 	void setProgress(float p);
 private:
@@ -26,7 +25,6 @@ public:
 	virtual void initialize() override;
 	virtual void update() override;
 	virtual void render(Renderer& renderer) override;
-	virtual void clean() override {}
 private:
 	static TimerResult end(Uint32 interval, void* param);
 private:

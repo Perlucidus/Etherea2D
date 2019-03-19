@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Common.hpp"
+#include "Exception.hpp"
 #include "Geometry.hpp"
+#include <SDL_render.h>
  
 class Surface;
 class Texture;
@@ -24,6 +26,7 @@ public:
 	void DrawPoint(Point const& point);
 	void DrawLine(Point const& p1, Point const& p2);
 	void DrawRectangle(Rectangle const& rect);
+	void DrawCircle(Point const& center, uint16_t radius);
 	void Copy(Texture const& texture, Rectangle const& from, Rectangle const& to);
 	void CopyFrom(Texture const& texture, Rectangle const& from);
 	void CopyTo(Texture const& texture, Rectangle const& to);
@@ -40,3 +43,5 @@ private:
 	shared_ptr<SDL_Renderer> ptr;
 	Rectangle screen;
 };
+
+class RenderException : public SDLException {};

@@ -1,8 +1,9 @@
 #pragma once
 
+#include "IGameObject.hpp"
 #include "Renderer.hpp"
 
-class GameComponent {
+class GameComponent : public IGameObject {
 public:
 	GameComponent() = default;
 	virtual ~GameComponent() = default;
@@ -10,8 +11,4 @@ public:
 	void operator=(GameComponent const&) = delete;
 
 	virtual void initialize() = 0;
-
-	virtual void update() = 0;
-	virtual void render(Renderer& renderer) = 0;
-	virtual void clean() = 0;
 };

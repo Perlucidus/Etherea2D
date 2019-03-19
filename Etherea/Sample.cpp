@@ -1,4 +1,5 @@
 #include "Sample.hpp"
+#include "Log.hpp"
 
 Sample::Sample(Mix_Chunk* chunk)
 {

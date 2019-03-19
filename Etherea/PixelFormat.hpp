@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Common.hpp"
+#include "Exception.hpp"
 
 class Window;
 
@@ -21,3 +22,5 @@ public:
 private:
 	shared_ptr<SDL_PixelFormat> ptr;
 };
+
+class PixelFormatException : public SDLException {};

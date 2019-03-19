@@ -1,7 +1,9 @@
 #pragma once
 
 #include "Common.hpp"
+#include "Exception.hpp"
 #include <functional>
+#include <SDL_timer.h>
 
 enum class TimerResult
 {
@@ -32,4 +34,14 @@ private:
 	TimerCallback callback;
 	void* param;
 	Uint32 delay;
+};
+
+class TimerException : public SDLException {
+public:
+	TimerException();
+	TimerException(char const* reason);
+
+	char const* what() const noexcept override;
+private:
+	char const* reason;
 };

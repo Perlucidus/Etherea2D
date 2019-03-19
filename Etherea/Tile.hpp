@@ -1,7 +1,14 @@
 #pragma once
 
-#include "Animated.hpp"
+#include "IGameObject.hpp"
+#include "Common.hpp"
 
-class Tile : public Animated {
+using TileId = uint32_t;
 
+class Tile : public IGameObject {
+public:
+	Tile() = delete;
+	Tile(TileId id) : id(id) {}
+private:
+	TileId id;
 };

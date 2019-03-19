@@ -3,6 +3,7 @@
 #include "SoundManager.hpp"
 #include "Splash.hpp"
 #include "WindowEventHandler.hpp"
+#include "Log.hpp"
 #include "Test.hpp"
 
 const int SCREEN_WIDTH = 800;
@@ -122,7 +123,5 @@ void Game::Cleanup()
 	for (auto&& timer : timers)
 		timer.second.abort();
 	timers.clear();
-	for (auto&& component : components)
-		component.second->clean();
 	components.clear();
 }

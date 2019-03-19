@@ -22,8 +22,11 @@ private:
 
 class SplashEventData : public CustomEventData { public:	SplashEventData(); };
 
-class CollisionEventData : public CustomEventData {};
-class EntityCollisionEventData : public CustomEventData
+class CollisionEventData : public CustomEventData {
+public:
+	CollisionEventData(const string& name);
+};
+class EntityCollisionEventData : public CollisionEventData
 {
 public:
 	EntityCollisionEventData(string const& id1, string const& id2);

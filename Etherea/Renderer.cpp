@@ -1,6 +1,7 @@
 #include "Renderer.hpp"
 #include "Surface.hpp"
 #include "Texture.hpp"
+#include "Log.hpp"
 
 Renderer::Renderer() : ptr(nullptr) {}
 
@@ -66,6 +67,31 @@ void Renderer::DrawRectangle(Rectangle const & rect)
 {
 	if (SDL_RenderDrawRect(ptr.get(), &rect.ToSDLRect()))
 		throw RenderException();
+}
+
+void Renderer::DrawCircle(Point const & center, uint16_t radius)
+{
+	int x = radius;
+	int y = 0;
+	int error = 0;
+	bool edge = true;
+	while (x >= y) {
+		x -= edge;
+		DrawPoint(center + Point(x, -y));
+		DrawPoint(center + Point(y, -x));
+		DrawPoint(center - Point(y, x));
+		DrawPoint(center - Point(x, y));
+		DrawPoint(center + Point(-x, y));
+		DrawPoint(center + Point(-y, x));
+		DrawPoint(center + Point(y, x));
+		DrawPoint(center + Point(x, y));
+		x += edge;
+		edge = false;
+		if (error <= 0)
+			error += ++y * 2 + 1;
+		if (error >= 0)
+			error -= --x * 2 + 1;
+	}
 }
 
 void Renderer::Copy(Texture const& texture, Rectangle const & from, Rectangle const & to)

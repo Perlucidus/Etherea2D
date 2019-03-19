@@ -1,19 +1,14 @@
 #pragma once
 
-#include "Log.hpp"
-#include "Exception.hpp"
-#include <SDL.h>
-#include <SDL_image.h>
-#include <SDL_mixer.h>
-#include <SDL_timer.h>
+#include <string>
 #include <memory>
 #include <map>
+#include <SDL_pixels.h>
 
+using std::string;
 using std::unique_ptr;
 using std::shared_ptr;
 using std::make_unique;
-
-const int LOOP_SOUND_FOREVER = -1;
 
 inline SDL_Color Color(Uint8 red, Uint8 green, Uint8 blue, Uint8 alpha = SDL_ALPHA_OPAQUE) {
 	SDL_Color color;

@@ -1,4 +1,7 @@
 #include "Game.hpp"
+#include "Log.hpp"
+#include <SDL.h>
+#include <SDL_mixer.h>
 
 int main(int argc, char* args[])
 {

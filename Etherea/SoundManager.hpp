@@ -4,6 +4,8 @@
 #include "Music.hpp"
 #include <map>
 
+constexpr int LOOP_SOUND_FOREVER = -1;
+
 class SoundManager {
 public:
 	SoundManager(SoundManager const&) = delete;

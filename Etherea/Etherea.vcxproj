@@ -179,7 +179,8 @@
     <ClInclude Include="GameComponent.hpp" />
     <ClInclude Include="Geometry.hpp" />
     <ClInclude Include="GravityComponent.hpp" />
-    <ClInclude Include="GUIComponent.hpp" />
+    <ClInclude Include="GUI.hpp" />
+    <ClInclude Include="IGameObject.hpp" />
     <ClInclude Include="MenuItem.hpp" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="PixelFormat.hpp" />

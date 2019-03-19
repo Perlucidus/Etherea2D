@@ -15,9 +15,8 @@ public:
 	Snek();
 
 	// Inherited via Entity
-	virtual void draw(Renderer& renderer) override;
+	virtual void render(Renderer& renderer) override;
 	virtual void update() override;
-	virtual void clean() override;
 public:
 	void setVelocity(Velocity velocity);
 public:
@@ -33,9 +32,8 @@ public:
 	Plant(string const& id);
 
 	// Inherited via Entity
-	virtual void draw(Renderer & renderer) override;
+	virtual void render(Renderer & renderer) override;
 	virtual void update() override;
-	virtual void clean() override;
 public:
 	Texture t, t120l, t120r;
 };

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Common.hpp"
+#include "Exception.hpp"
+#include <SDL_mixer.h>
 
 class Sample {
 	friend class SoundManager;
@@ -16,3 +18,5 @@ public:
 private:
 	shared_ptr<Mix_Chunk> ptr;
 };
+
+class SampleException : public MixException {};

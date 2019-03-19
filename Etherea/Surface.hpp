@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Common.hpp"
+#include "Exception.hpp"
+#include <SDL_surface.h>
 
 class Surface {
 	friend class Renderer;
@@ -18,3 +20,5 @@ public:
 private:
 	shared_ptr<SDL_Surface> ptr;
 };
+
+class SurfaceException : public SDLException {};

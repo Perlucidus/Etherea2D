@@ -1,9 +1,7 @@
 #pragma once
 
 #include "Vector2D.hpp"
-
-struct SDL_Point;
-struct SDL_Rect;
+#include <SDL_rect.h>
 
 class Point {
 public:

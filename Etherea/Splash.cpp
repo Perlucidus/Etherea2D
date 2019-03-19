@@ -1,4 +1,5 @@
 #include "Splash.hpp"
+#include "Log.hpp"
 
 #define RENDER GetComponent<RenderComponent>()
 
@@ -8,7 +9,7 @@ Splash::Splash() : Entity("splash")
 	AddComponent<RenderComponent>(texture);
 }
 
-void Splash::draw(Renderer & renderer)
+void Splash::render(Renderer & renderer)
 {
 	renderer.CopyTo(RENDER.getTexture(), Rectangle(Position(0), RENDER.getTextureSize()));
 }
@@ -46,7 +47,7 @@ void SplashScreen::update()
 void SplashScreen::render(Renderer & renderer)
 {
 	if (timer.isRunning())
-		splash.draw(renderer);
+		splash.render(renderer);
 }
 
 TimerResult SplashScreen::end(Uint32 interval, void* param)

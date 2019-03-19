@@ -1,12 +1,15 @@
 #pragma once
 
 #include "GameComponent.hpp"
+#include "Tile.hpp"
 #include "Entity.hpp"
 #include "Geometry.hpp"
 #include <map>
 #include <unordered_set>
 
+using TilePosition = std::pair<int, int>;
 using ChunkId = std::pair<int, int>;
+using TileMap = std::map<TilePosition, TileId>;
 using ChunkMap = std::map<ChunkId, std::unordered_set<string>>;
 using EntityMap = std::map<string, unique_ptr<Entity>>;
 
@@ -20,7 +23,6 @@ public:
 	virtual void initialize() override;
 	virtual void update() override;
 	virtual void render(Renderer& renderer) override;
-	virtual void clean() override;
 
 	template<typename EntityT>
 	EntityT& GetEntity(EntityMap::key_type const& key);
@@ -34,6 +36,7 @@ private:
 private:
 	static const int CHUNK_RATIO;
 
+	TileMap tiles;
 	ChunkMap chunks;
 	EntityMap entities;
 };

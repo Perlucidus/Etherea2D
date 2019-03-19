@@ -34,7 +34,7 @@ Snek::Snek() : Entity("snake"), v(Velocity(10, 10)), s(0.1f), mode(0), mod(Color
 	FACE.face(Direction(1, 0));
 }
 
-void Snek::draw(Renderer & renderer)
+void Snek::render(Renderer & renderer)
 {
 	if (!RENDER.isEnabled())
 		return;
@@ -66,8 +66,6 @@ void Snek::update()
 	if (animate)
 		ANIMATION.updateAnimationTimer();
 }
-
-void Snek::clean() {}
 
 void Snek::setVelocity(Velocity velocity)
 {
@@ -105,7 +103,10 @@ bool TestEventHandler::handle(SDL_Event const& event)
 		EntityCollisionEventData& data = *static_cast<EntityCollisionEventData*>(event.user.data1);
 		if (data.getId1() == "plant" || data.getId2() == "plant") {
 			Plant& plant = GAME.GetComponent<TestWorld>("test").GetEntity<Plant>("plant");
-			plant.GetComponent<RenderComponent>().setTexture(Random().next() % 2 ? plant.t120l : plant.t120r);
+			Random rnd;
+			Texture& texture = plant.GetComponent<RenderComponent>().getTexture();
+			plant.GetComponent<RenderComponent>().setTexture(rnd.next() % 2 ? plant.t120l : plant.t120r);
+			texture.ColorMod(Color(rnd.next(), rnd.next(), rnd.next()));
 		}
 		return true;
 	}
@@ -160,7 +161,7 @@ void TestEventHandler::KeyEvent(Uint8 const* state)
 	else if (player.mode == 2) {
 		player.RENDER.setTexture(player.t120r);
 		if (right) player.RENDER.setRenderAngle((static_cast<int>(player.RENDER.getRenderAngle()) + 5) % 360);
-		if (left) player.RENDER.setRenderAngle((static_cast<int>(player.RENDER.getRenderAngle()) - 5) % 360);
+		if (left) player.RENDER.setRenderAngle((static_cast<int>(player.RENDER.getRenderAngle()) - 5 + 360) % 360);
 		float rads = static_cast<float>(player.RENDER.getRenderAngle()) / 180 * static_cast<float>(M_PI);
 		float x = cos(rads);
 		float y = sin(rads);
@@ -192,7 +193,7 @@ Plant::Plant(string const& id) : Entity(id)
 	FACE.face(Direction(1, 0));
 }
 
-void Plant::draw(Renderer& renderer)
+void Plant::render(Renderer& renderer)
 {
 	if (!RENDER.isEnabled())
 		return;
@@ -201,9 +202,6 @@ void Plant::draw(Renderer& renderer)
 	Direction facing = FACE.getFacingDirection();
 	if (facing.x < 0) f ^= SDL_FLIP_HORIZONTAL;
 	if (facing.y < 0) f ^= SDL_FLIP_VERTICAL;
-	Random rnd;
-	if (RENDER.getTexture() == t120l || RENDER.getTexture() == t120r)
-		RENDER.getTexture().ColorMod(Color(rnd.next(), rnd.next(), rnd.next()));
 	renderer.CopyEx(RENDER.getTexture(), src, dst, 0, static_cast<SDL_RendererFlip>(f));
 }
 
@@ -214,5 +212,3 @@ void Plant::update()
 		ANIMATION.updateAnimationTimer();
 	}
 }
-
-void Plant::clean() {}

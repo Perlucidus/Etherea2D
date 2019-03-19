@@ -1,4 +1,5 @@
 #include "Texture.hpp"
+#include "Log.hpp"
 
 Texture::Texture(SDL_Texture* texture)
 {
@@ -37,14 +38,14 @@ SDL_Color Texture::GetColorMod()
 {
 	SDL_Color color;
 	if (SDL_GetTextureColorMod(ptr.get(), &color.r, &color.g, &color.b) || SDL_GetTextureAlphaMod(ptr.get(), &color.a))
-		throw SurfaceException();
+		throw TextureException();
 	return color;
 }
 
 void Texture::ColorMod(SDL_Color const& color)
 {
 	if (SDL_SetTextureColorMod(ptr.get(), color.r, color.g, color.b) || SDL_SetTextureAlphaMod(ptr.get(), color.a))
-		throw SurfaceException();
+		throw TextureException();
 }
 
 void Texture::ClearColorMod()

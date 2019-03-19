@@ -1,4 +1,5 @@
 #include "Music.hpp"
+#include "Log.hpp"
 
 Music::Music(Mix_Music* music) {
 	ptr = shared_ptr<Mix_Music>(music, [=](Mix_Music* p) { if (p) Mix_FreeMusic(p); STDLOG << "Music Destroyed"; });

@@ -56,3 +56,14 @@ Uint32 SDLCALL Timer::tick(Uint32 interval, void* param)
 		return 0;
 	}
 }
+
+TimerException::TimerException() : reason(nullptr) {}
+
+TimerException::TimerException(char const* reason) : reason(reason) {}
+
+char const* TimerException::what() const noexcept
+{
+	if (reason)
+		return reason;
+	return SDLException::what();
+}

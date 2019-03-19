@@ -1,5 +1,6 @@
 #include "PixelFormat.hpp"
 #include "Window.hpp"
+#include "Log.hpp"
 
 PixelFormat::PixelFormat(SDL_PixelFormat* format)
 {

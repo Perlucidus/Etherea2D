@@ -1,9 +1,11 @@
 #pragma once
 
 #include "Common.hpp"
+#include "Exception.hpp"
 #include "PixelFormat.hpp"
 #include "Vector2D.hpp"
 #include <functional>
+#include <SDL_render.h>
 
 class Renderer;
 
@@ -31,3 +33,5 @@ private:
 private:
 	shared_ptr<SDL_Texture> ptr;
 };
+
+class TextureException : public SDLException {};
